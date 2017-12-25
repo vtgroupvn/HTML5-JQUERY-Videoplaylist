@@ -1,4 +1,6 @@
+	
 (function($){
+	
 	jQuery.fn.html5_video_playlist = function(fn_options){
 		var self = this;
 		if (typeof this == undefined){
@@ -38,10 +40,11 @@
 			show_description: true,
 			show_video_list: true
 		}, fn_options);
-		self.total_video = 0;
+		
+		self.currently_active_video = 0;
 		self.loadVideo = function(){
-			if (self.total_video >= self.options.video_list.length || self.total_video < 0){
-				self.total_video = 0;
+			if (self.currently_active_video >= self.options.video_list.length || self.currently_active_video < 0){
+				self.currently_active_video = 0;
 			}
 			self.form_video.html('');
 			self.form_video_show = jQuery('<video />');
@@ -51,8 +54,8 @@
 			});
 			self.form_video_show.attr('id', 'video-show');
 			self.form_video_source = jQuery('<source />');
-			self.form_video_source.attr('type', self.options.video_list[self.total_video].type);
-			self.form_video_source.attr('src', self.options.video_list[self.total_video].src);
+			self.form_video_source.attr('type', self.options.video_list[self.currently_active_video].type);
+			self.form_video_source.attr('src', self.options.video_list[self.currently_active_video].src);
 			self.form_video_show.append(self.form_video_source);
 			self.form_video_show.append('Your browser does not support HTML5 video.');
 			self.form_video.append(self.form_video_show);
@@ -63,7 +66,8 @@
 					'height': self.options.form_video_description_height,
 					'width': '100%',
 					'text-align': 'left',
-					'padding-left': '10px'
+					'padding-left': '10px',
+					'margin-top': '15px'
 				});
 				self.form_video_titlte = jQuery('<span />');
 				self.form_video_titlte.css({
@@ -76,7 +80,7 @@
 					'clear': 'both',
 					'display': 'inline-block'
 				});
-				self.form_video_titlte.text(self.options.video_list[self.total_video].title);
+				self.form_video_titlte.text(self.options.video_list[self.currently_active_video].title);
 				self.form_video_text.append(self.form_video_titlte);
 				self.form_video_description = jQuery('<span />');
 				self.form_video_description.css({
@@ -89,13 +93,47 @@
 					'display': 'inline-block',
 					'font-style': 'italic'
 				});
-				self.form_video_description.text(self.options.video_list[self.total_video].description);
+				self.form_video_description.text(self.options.video_list[self.currently_active_video].description);
 				self.form_video_text.append(self.form_video_description);
 				self.form_video.append(self.form_video_text);
 			}
 			if (self.options.auto_play){
 				self.form_video_show[0].play();
 			}
+			if (self.options.auto_next){
+				self.form_video_show[0].addEventListener("ended", function(e) {
+					self.currently_active_video++;
+					self.loadVideo();
+				});
+			}
+			self.form_video_show[0].addEventListener('loadedmetadata', function() {
+				self.processbar_show.css({
+					'width': '0%'
+				});
+				self.processbar_circle.css({
+					'left': '0%'
+				});
+				//display video buffering bar
+				var currentBuffer = self.form_video_show[0].buffered.end(0);
+				var maxduration = self.form_video_show[0].duration;
+				var perc = 100 * currentBuffer / maxduration;
+				self.processbar_show_buffer.css('width',perc+'%');
+			});
+			self.form_video_show[0].addEventListener('timeupdate', function(){
+				var percentage = Math.floor((100 / self.form_video_show[0].duration) * self.form_video_show[0].currentTime);
+				self.processbar_show.css({
+					'width': percentage+'%'					
+				});
+				self.processbar_circle.css({
+					'left': (percentage)+'%'
+				});
+			}, false);
+			self.seekingDuration = function(totalWidth, duration){
+				var percentage = ( duration / totalWidth );
+				var vidTime = self.form_video_show[0].duration * percentage;
+				self.form_video_show[0].currentTime = vidTime;
+				self.form_video_show[0].play();
+			};
 		};
 		self.createForm = function(){
 			self.main_form = jQuery('<div />');
@@ -131,7 +169,6 @@
 				'float': 'right',
 				'margin': '3px',
 				'cursor': 'pointer',
-				'z-index': '9999',
 				'position': 'relative',
 				'background':'url(asset/images/next.png) no-repeat center',
 				'width': '16px',
@@ -139,7 +176,7 @@
 			});
 			self.form_control_next.attr('title', 'next');
 			self.form_control_next.click(function(){
-				self.total_video++;
+				self.currently_active_video++;
 				self.loadVideo();
 			});
 			self.form_control.append(self.form_control_next);
@@ -150,7 +187,6 @@
 				'float': 'right',
 				'margin': '3px',
 				'cursor': 'pointer',
-				'z-index': '9999',
 				'position': 'relative',
 				'background':'url(asset/images/pause.png) no-repeat center',
 				'width': '16px',
@@ -168,7 +204,6 @@
 				'float': 'right',
 				'margin': '3px',
 				'cursor': 'pointer',
-				'z-index': '9999',
 				'position': 'relative',
 				'background':'url(asset/images/play.png) no-repeat center',
 				'width': '16px',
@@ -186,7 +221,6 @@
 				'float': 'right',
 				'margin': '3px',
 				'cursor': 'pointer',
-				'z-index': '9999',
 				'position': 'relative',
 				'background':'url(asset/images/prev.png) no-repeat center',
 				'width': '16px',
@@ -194,11 +228,124 @@
 			});
 			self.form_control_prev.attr('title', 'prev');
 			self.form_control_prev.click(function(){
-				self.total_video--;
+				self.currently_active_video--;
 				self.loadVideo();
 			});	
 			self.form_control.append(self.form_control_prev);
-			
+			/**FULLSCREEN**/
+			self.form_control_fullscreen = jQuery('<span />');
+			self.form_control_fullscreen.css({
+				'float': 'right',
+				'margin': '3px',
+				'cursor': 'pointer',
+				'position': 'relative',
+				'background':'url(asset/images/fullscreen.png) no-repeat center',
+				'width': '16px',
+				'height': '16px'
+			});
+			self.form_control_fullscreen.attr('title', 'Full Screen');
+			self.form_control_fullscreen.click(function(){
+				if (self.form_video_show.css('position') != 'fixed'){
+					self.form_video_show.css({
+						'position': 'fixed',
+						'right': 0, 
+						'bottom': 0,
+						'min-width': '100%', 
+						'min-height': '100%',
+						'width': 'auto',
+						'height': 'auto',
+						'z-index': '9999',
+						'background-size':'cover'
+					});
+				}
+				document.onkeydown = function(evt) {
+					evt = evt || window.event;
+					var isEscape = false;
+					if ("key" in evt) {
+						isEscape = (evt.key == "Escape" || evt.key == "Esc");
+					} else {
+						isEscape = (evt.keyCode == 27);
+					}
+					if (isEscape) {
+						if (self.form_video_show.css('position') == 'fixed'){
+							self.form_video_show.css({
+								'position': 'inherit',
+								'right': 0, 
+								'bottom': 0,
+								'width': '100%',
+								'height': '100%',
+								'z-index': '0'
+							});
+						}
+					}
+				};
+			});	
+			self.form_control.append(self.form_control_fullscreen);
+			self.processbar = jQuery('<div />');
+			self.processbar.attr('id', 'progress-bar');
+			self.processbar.attr('min', '0');
+			self.processbar.attr('max', '100');
+			self.processbar.css({
+				'color':'#fff',
+				'font-size':'12px',
+				'width': (self.main_form.width()-16*5-30)+'px',
+				'height':'16px',
+				'border':'none',
+				'margin-right':'5px',
+				'background':'#434343',
+				'text-align':'left',
+				'position': 'relative',
+				'top': '3px',
+				'cursor': 'pointer'
+			});
+			self.processbar.click(function(e){
+				var offset = jQuery(this).offset();
+				var left = (e.pageX - offset.left);
+				var totalWidth = jQuery(this).width();
+				self.seekingDuration(totalWidth, left);
+			});
+			self.processbar_show_buffer = jQuery('<div />');
+			self.processbar_show_buffer.css({
+				'width': '0px',
+				'background':'#ACDAFB',
+				'height': '16px',
+				'display':'inline-block',
+				'clear': 'both',
+				'float': 'left',
+				'margin-top': '-22px'
+			});
+			self.processbar.append(self.processbar_show_buffer);
+			self.processbar_show = jQuery('<div />');
+			self.processbar_show.css({
+				'width': '0px',
+				'background':'#DA9567',
+				'height': '16px',
+				'display':'inline-block',
+				'margin-top': '0px'
+			});			
+			self.processbar_show.html('&nbsp;');
+			self.processbar.append(self.processbar_show);
+			self.processbar_circle = jQuery('<div />');
+			self.processbar_circle.css({
+				'background': '#094FC4',
+				'border-radius': '60%',
+				'-webkit-box-shadow': '0px 0px 5px -1px #094FC4',
+				'-moz-box-shadow':    '0px 0px 5px -1px #094FC4',
+				'box-shadow':         '0px 0px 5px -1px #094FC4',
+				'height': '20px',
+				'width': '20px',
+				'display': 'inline-block',
+				'position': 'relative',
+				'top': '-3px',
+				'clear': 'both',
+				'border': '2px solid #094FC4',
+				'position': 'absolute',
+				'margin-left': '-3px',
+				'cursor': 'pointer'
+			});
+			self.processbar_circle.attr('draggable', "true");
+			self.processbar.append(self.processbar_circle);
+			self.form_control.append(self.processbar);
 			self.main_form.append(self.form_control);
 			jQuery(self).append(self.main_form);
 		};
@@ -265,9 +412,9 @@
 					video.append(video_thum);
 					self.list_video.append(video);
 					video.click(function(){
-						self.total_video = parseInt(jQuery(this).attr('data-video-id'));
+						self.currently_active_video = parseInt(jQuery(this).attr('data-video-id'));
 						self.loadVideo();
-					});					
+					});
 				}
 				self.slide_video.append(self.list_video);
 				self.next_video = jQuery('<div />');
@@ -324,6 +471,40 @@
 			}
 			self.loadVideo();
 		};
+		document.addEventListener("dragstart", function(event) {
+			event.dataTransfer.setData("Text", event.target.id);
+		});
+		/* Events fired on the drop target */
+		document.addEventListener("dragover", function(event) {
+			event.preventDefault();
+		});
+		document.addEventListener("drop", function(event) {
+			event.preventDefault();
+			if (jQuery(event.target).parents('div#html5-video-playlist').length){
+				var offset = self.processbar.offset();
+				var left = (event.pageX - offset.left);
+				var totalWidth = self.processbar.width();
+				self.processbar_circle.css({
+					'left': left + 'px',
+					'display':'block' 
+				});
+				self.seekingDuration(totalWidth, left);
+			}
+		});		
+		document.addEventListener("drag", function(event) {
+			if (jQuery(event.target).parents('div#html5-video-playlist').length){
+				var offset = self.processbar.offset();
+				var duration = (event.pageX - offset.left);
+				var totalWidth = self.processbar.width();
+				self.processbar_circle.css({
+					'display':'none' 
+				});
+				var percentage = ( duration / totalWidth );
+				self.processbar_show.css({
+					'width': self.processbar_circle.offset().left
+				});
+			}
+		});
 		return self;
 	};
 })(jQuery);
