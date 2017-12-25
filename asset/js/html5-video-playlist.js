@@ -47,6 +47,12 @@
 				self.currently_active_video = 0;
 			}
 			self.form_video.html('');
+			self.processbar_show.css({
+				'width': '0%'
+			});
+			self.processbar_circle.css({
+				'left': '0%'
+			});
 			self.form_video_show = jQuery('<video />');
 			self.form_video_show.css({
 				'height': '100%', 
@@ -107,12 +113,6 @@
 				});
 			}
 			self.form_video_show[0].addEventListener('loadedmetadata', function() {
-				self.processbar_show.css({
-					'width': '0%'
-				});
-				self.processbar_circle.css({
-					'left': '0%'
-				});
 				//display video buffering bar
 				var currentBuffer = self.form_video_show[0].buffered.end(0);
 				var maxduration = self.form_video_show[0].duration;
@@ -127,13 +127,16 @@
 				self.processbar_circle.css({
 					'left': (percentage)+'%'
 				});
+				self.processbar_circle.css({
+					'display':'block' 
+				});
 			}, false);
 			self.seekingDuration = function(totalWidth, duration){
 				var percentage = ( duration / totalWidth );
 				var vidTime = self.form_video_show[0].duration * percentage;
 				self.form_video_show[0].currentTime = vidTime;
 				self.form_video_show[0].play();
-			};
+			};			
 		};
 		self.createForm = function(){
 			self.main_form = jQuery('<div />');
@@ -480,7 +483,7 @@
 		});
 		document.addEventListener("drop", function(event) {
 			event.preventDefault();
-			if (jQuery(event.target).parents('div#html5-video-playlist').length){
+			if (jQuery(event.target).parents('div#html5-video-playlist').length > 0){
 				var offset = self.processbar.offset();
 				var left = (event.pageX - offset.left);
 				var totalWidth = self.processbar.width();
@@ -491,17 +494,17 @@
 				self.seekingDuration(totalWidth, left);
 			}
 		});		
-		document.addEventListener("drag", function(event) {
-			if (jQuery(event.target).parents('div#html5-video-playlist').length){
+		document.addEventListener("dragover", function(event) {
+			if (jQuery(event.target).parents('div#html5-video-playlist').length > 0){
 				var offset = self.processbar.offset();
 				var duration = (event.pageX - offset.left);
 				var totalWidth = self.processbar.width();
 				self.processbar_circle.css({
 					'display':'none' 
 				});
-				var percentage = ( duration / totalWidth );
+				var percentage = 100*( duration / totalWidth );
 				self.processbar_show.css({
-					'width': self.processbar_circle.offset().left
+					'width': percentage+'%'
 				});
 			}
 		});
