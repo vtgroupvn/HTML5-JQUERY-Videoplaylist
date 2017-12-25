@@ -5,6 +5,10 @@
 <title>JQUERY & HTML5 Videoplaylist</title>
 <script type="text/javascript" src="asset/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="asset/js/html5-video-playlist.js"></script>
+<style>
+.grab { cursor: -webkit-grab; }
+.grabbing { cursor: -webkit-grabbing; }
+</style>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
 		var fn_html5_videoplaylist = jQuery('div#html5-videoplaylist-demo').html5_video_playlist({
@@ -26,9 +30,9 @@
 				'-moz-border-radius': '6px',
 			},
 			video_list:[			
-				{title: 'Despacito', description: 'Despacito', thumbnail:'http://abbora.local/html5/asset/images/1.png', src: 'asset/videos/Despacito.mp4', type: 'video/mp4'},
-				{title: 'Reloi Cao Thai Son', description: 'Reloi Cao Thai Son', thumbnail:'http://abbora.local/html5/asset/images/2.png', src: 'asset/videos/reloi.MP4', type: 'video/mp4'},
-				{title: 'Phia sau mot co gai', description: 'Phia sau mot co gai', thumbnail:'http://abbora.local/html5/asset/images/3.png', src: 'asset/videos/PhiaSauMotCoGai.mp4', type: 'video/mp4'}
+				{title: 'Despacito', description: 'Despacito', thumbnail:'asset/images/1.png', src: 'asset/videos/Despacito.mp4', type: 'video/mp4'},
+				{title: 'Reloi Cao Thai Son', description: 'Reloi Cao Thai Son', thumbnail:'asset/images/2.png', src: 'asset/videos/reloi.MP4', type: 'video/mp4'},
+				{title: 'Phia sau mot co gai', description: 'Phia sau mot co gai', thumbnail:'asset/images/3.png', src: 'asset/videos/PhiaSauMotCoGai.mp4', type: 'video/mp4'}
 			],
 			get_current_video: function(video){
 			},
