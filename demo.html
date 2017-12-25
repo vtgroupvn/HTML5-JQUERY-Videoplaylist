@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>JQUERY & HTML5 Videoplaylist</title>
+<script type="text/javascript" src="asset/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="asset/js/html5-video-playlist.js"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function(){
+		var fn_html5_videoplaylist = jQuery('div#html5-videoplaylist-demo').html5_video_playlist({
+			form_height: '600px',
+			form_width: '700px',
+			form_video_control_height: '40px',
+			form_video_height: '400px',
+			form_video_description_height: '100px',
+			form_video_list_height: '100px',
+			form_extra_style : {
+				'margin': 'auto',
+				'margin-top': '20px',
+				'border': '1px solid #2C3D82',
+				'border-radius': '60%',
+				'-webkit-box-shadow': '0px 0px 5px -1px #2C3D82',
+				'-moz-box-shadow':    '0px 0px 5px -1px #2C3D82',
+				'box-shadow':         '0px 0px 5px -1px #2C3D82',
+				'-webkit-border-radius': '6px',
+				'-moz-border-radius': '6px',
+			},
+			video_list:[
+				{title: 'Despacito', description: 'Despacito', thumbnail:'http://abbora.local/html5/asset/images/1.png', src: 'asset/videos/Despacito.mp4', type: 'video/mp4'},
+				{title: 'Reloi Cao Thai Son', description: 'Reloi Cao Thai Son', thumbnail:'http://abbora.local/html5/asset/images/2.png', src: 'asset/videos/reloi.MP4', type: 'video/mp4'},
+				{title: 'Xin dung lang im', description: 'Xin dung lang im', thumbnail:'http://abbora.local/html5/asset/images/3.png', src: 'asset/videos/xindunglangim.mp4', type: 'video/mp4'}
+			],
+			get_current_video: function(video){
+			},
+			auto_play: true,
+			auto_next: true,
+			show_description: true,
+			show_video_list: true
+		});
+		fn_html5_videoplaylist.init();
+	});
+</script>
+</head>
+<body>
+<center><img src="asset/images/jquery-plugins.jpg" alt="jQuery Plugins"/></center>
+<div id="html5-videoplaylist-demo"></div>
+</body>
+</html>
