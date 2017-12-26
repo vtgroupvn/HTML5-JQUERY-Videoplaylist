@@ -876,6 +876,12 @@
 							'display': 'block'
 						});
 					}
+					if (self.mouseInVolume(event.pageX)){
+						var offset = self.processbar_volume.offset();
+						var left = (event.pageX - offset.left);
+						var totalWidth = self.processbar_volume.width();
+						self.seekingVolume(totalWidth, left);
+					}
 				}
 			}, false);
 		};
