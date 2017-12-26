@@ -691,8 +691,8 @@
 			self.options.video_list.push(video_details);
 			var video = jQuery('<div />');
 			video.attr('class', 'video-item');
-			video.attr('id', 'video-item-'+(self.options.video_list.length+1));
-			video.attr('data-video-id', self.options.video_list.length);
+			video.attr('id', 'video-item-'+(self.options.video_list.length));
+			video.attr('data-video-id', self.options.video_list.length-1);
 			if (self.options.skin == 1){
 				video.css({
 					'width': '100px',
