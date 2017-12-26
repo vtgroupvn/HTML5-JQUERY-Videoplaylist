@@ -47,6 +47,7 @@ Donate link: http://vt-group.vn/donate.html
 			skin: 1
 		}, fn_options);
 		self.draging = false;
+		self.draging_volume = false;
 		self.currently_active_video = 0;
 		self.loadVideo = function(){
 			if (self.currently_active_video >= self.options.video_list.length || self.currently_active_video < 0){
@@ -145,6 +146,15 @@ Donate link: http://vt-group.vn/donate.html
 						'display': 'block'
 					});
 				}
+				if (!self.draging_volume && self.seeking_volume_percentage != undefined){
+					self.processbar_volume_show.css({
+						'width': (100*self.seeking_volume_percentage)+'%'					
+					});
+					self.processbar_volume_circle.css({
+						'left': (100*self.seeking_volume_percentage)+'%',
+						'display': 'block'					
+					});
+				}
 				
 			}, false);
 			self.form_video_show[0].addEventListener('loadeddata', function(){
@@ -162,13 +172,13 @@ Donate link: http://vt-group.vn/donate.html
 				'width': (100*self.form_video_show[0].volume)+'%'					
 			});
 			self.seekingVolume = function(totalWidth, duration){
-				var percentage = ( duration / totalWidth );
-				self.form_video_show[0].volume  = percentage;
+				self.seeking_volume_percentage = ( duration / totalWidth );
+				self.form_video_show[0].volume  = self.seeking_volume_percentage;
 				self.processbar_volume_show.css({
-					'width': (100*percentage)+'%'					
+					'width': (100*self.seeking_volume_percentage)+'%'					
 				});
 				self.processbar_volume_circle.css({
-					'left': (100*percentage)+'%'					
+					'left': (100*self.seeking_volume_percentage)+'%'					
 				});
 			}
 			/**CALLBACK THE EVENT**/
@@ -748,6 +758,7 @@ Donate link: http://vt-group.vn/donate.html
 				event.dataTransfer.setDragImage(crt, 0, 0);
 			}, false);
 			self.processbar_volume_circle[0].addEventListener("dragstart", function(event) {
+				self.draging_volume = true;
 				event.dataTransfer.setData("Text", event.target.id);
 				
 				var crt = this.cloneNode(true);
@@ -761,6 +772,7 @@ Donate link: http://vt-group.vn/donate.html
 			document.addEventListener("drop", function(event) {				
 				event.preventDefault();
 				self.draging = false;
+				self.draging_volume = false;
 				if (jQuery(event.target).parents('div#progress-bar').length > 0){
 					var offset = self.processbar.offset();
 					var left = (event.pageX - offset.left);
