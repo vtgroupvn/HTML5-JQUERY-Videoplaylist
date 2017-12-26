@@ -461,6 +461,7 @@
 			self.processbar.append(self.processbar_circle);
 			self.form_control.append(self.processbar);
 			self.form_video.append(self.form_control);
+			self.initDrag();
 		};
 		self.createForm = function(){
 			if (self.options.skin == undefined || self.options.skin > 3 || self.options.skin < 1){
@@ -743,7 +744,6 @@
 				event.dataTransfer.setDragImage(crt, 0, 0);
 			}, false);
 			self.processbar_volume_circle[0].addEventListener("dragstart", function(event) {
-				self.draging = true;
 				event.dataTransfer.setData("Text", event.target.id);
 				
 				var crt = this.cloneNode(true);
@@ -754,8 +754,9 @@
 			document.addEventListener("dragover", function(event) {
 				event.preventDefault();
 			}, false);
-			document.addEventListener("drop", function(event) {
+			document.addEventListener("drop", function(event) {				
 				event.preventDefault();
+				self.draging = false;
 				if (jQuery(event.target).parents('div#progress-bar').length > 0){
 					var offset = self.processbar.offset();
 					var left = (event.pageX - offset.left);
@@ -766,7 +767,6 @@
 						'display':'block' 
 					});
 					self.seekingDuration(totalWidth, left);
-					self.draging = false;				
 				}
 				if (jQuery(event.target).parents('div#progress-bar-volume').length > 0){
 					var offset = self.processbar_volume.offset();
@@ -856,8 +856,7 @@
 			if (self.options.show_video_list){
 				self.createFormList();
 			}
-			self.loadVideo();
-			self.initDrag();
+			self.loadVideo();			
 			self.resizeFix();
 		};
 		self.mouseInVolume = function(x){
