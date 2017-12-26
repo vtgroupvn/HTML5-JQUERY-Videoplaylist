@@ -132,7 +132,14 @@
 				}
 			});
 			self.form_video_show[0].addEventListener('timeupdate', function(){
+				/**START SHOW TIME**/
 				var percentage = Math.floor((100 / self.form_video_show[0].duration) * self.form_video_show[0].currentTime);
+				var current_min = Math.floor(self.form_video_show[0].currentTime / 60);
+				var current_second = self.form_video_show[0].currentTime - current_min*60;
+				var total_min = Math.floor(self.form_video_show[0].duration / 60);
+				var total_second = self.form_video_show[0].duration - total_min*60;
+				self.form_control_time.html(current_min+':'+current_second.toFixed(0)+'/'+total_min+':'+total_second.toFixed(0));
+				/**END SHOW TIME**/
 				if (!self.draging){
 					self.processbar_show.css({
 						'width': percentage+'%',
@@ -400,13 +407,29 @@
 			self.processbar_volume_circle.attr('draggable', "true");
 			self.processbar_volume.append(self.processbar_volume_circle);
 			self.form_control.append(self.form_control_volume);
+			/** TIME **/
+			self.form_control_time = jQuery('<span />');
+			self.form_control_time.css({
+				'color':'#094FC4',
+				'float': 'right',
+				'margin': '3px',
+				'cursor': 'pointer',
+				'position': 'relative',
+				'width': '40px',
+				'height': '16px',
+				'font-size': '10px',
+				'margin-top': '5px'
+			});
+			self.form_control_time.attr('title', 'time');
+			self.form_control_time.html('&nbsp;');
+			self.form_control.append(self.form_control_time);
 			self.processbar = jQuery('<div />');
 			self.processbar.attr('id', 'progress-bar');
 			self.processbar.attr('min', '0');
 			self.processbar.attr('max', '100');
 			self.processbar.css({
 				'font-size':'12px',
-				'width': (self.main_form.width()-16*5-150)+'px',
+				'width': (self.main_form.width()-16*5-200)+'px',
 				'height':'3px',
 				'border':'none',
 				'margin-right':'5px',
@@ -423,7 +446,7 @@
 				'-moz-border-radius': '6px'
 			});
 			if (self.options.skin > 1){
-				self.processbar.css({'width': (self.main_form.width()-16*5-(parseInt(self.options.form_video_list_width) + 150)-10)+'px'});
+				self.processbar.css({'width': (self.main_form.width()-16*5-(parseInt(self.options.form_video_list_width) + 200)-10)+'px'});
 			}
 			self.processbar.click(function(e){
 				var offset = jQuery(this).offset();
