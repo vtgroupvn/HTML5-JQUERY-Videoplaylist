@@ -167,6 +167,10 @@
 					'left': (100*percentage)+'%'					
 				});
 			}
+			/**CALLBACK THE EVENT**/
+			if (typeof self.options.get_current_video == 'function'){
+				self.options.get_current_video(self.form_video_show[0]);
+			}
 		};
 		self.createControl = function(){
 			self.form_control = jQuery('<div />');
@@ -678,6 +682,55 @@
 				self.main_video_list.append(self.slide_video);
 			}
 		};
+		self.add_new_video = function(video_details)
+		{
+			if (video_details.title == undefined || video_details.description == undefined || video_details.thumbnail == undefined || video_details.type == undefined){
+				alert('Error Data Input');
+				return;
+			}
+			self.options.video_list.push(video_details);
+			var video = jQuery('<div />');
+			video.attr('class', 'video-item');
+			video.attr('id', 'video-item-'+(self.options.video_list.length+1));
+			video.attr('data-video-id', self.options.video_list.length);
+			if (self.options.skin == 1){
+				video.css({
+					'width': '100px',
+					'height': self.options.form_video_list_height-5,
+					'left': (self.options.video_list.length-1)*100+'px',
+					'position': 'absolute',
+					'cursor': 'pointer',
+					'margin': '0px 3px'
+				});
+			}else{
+				video.css({
+					'width': self.options.form_video_list_width,
+					'height': self.options.form_video_list_height-5,
+					'position': 'relative',
+					'cursor': 'pointer',
+					'float': 'none',
+					'margin-bottom': '10px'
+				});
+
+			}
+			var video_thum = jQuery('<img />');
+			video_thum.attr('src', self.options.video_list[self.options.video_list.length-1].thumbnail);
+			video_thum.css({
+				'width': '80px',
+				'height': '100px',
+				'-webkit-box-shadow': '0px 0px 4px -1px #2C3D82',
+				'-moz-box-shadow':    '0px 0px 4px -1px #2C3D82',
+				'box-shadow':         '0px 0px 4px -1px #2C3D82',
+				'-webkit-border-radius': '8px',
+				'-moz-border-radius': '8px'
+			});
+			video.append(video_thum);
+			self.list_video.append(video);
+			video.click(function(){
+				self.currently_active_video = parseInt(jQuery(this).attr('data-video-id'));
+				self.loadVideo();
+			});
+		}
 		self.initDrag = function(){
 			self.processbar_circle[0].addEventListener("dragstart", function(event) {
 				self.draging = true;

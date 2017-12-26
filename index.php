@@ -48,6 +48,7 @@
 			skin: <?php echo $skin;?>//[1,2,3]-have 3 skin
 		});
 		fn_html5_videoplaylist.init();
+		fn_html5_videoplaylist.add_new_video({title: 'Despacito', description: 'Despacito', thumbnail:'asset/images/1.png', src: 'asset/videos/Despacito.mp4', type: 'video/mp4'});
 	});
 </script>
 </head>
