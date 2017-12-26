@@ -188,6 +188,9 @@
 					'left': (100*self.seeking_volume_percentage)+'%'					
 				});
 			}
+			if (self.seeking_volume_percentage != undefined){
+				self.form_video_show[0].volume  = self.seeking_volume_percentage;
+			}
 			/**CALLBACK THE EVENT**/
 			if (typeof self.options.get_current_video == 'function'){
 				self.options.get_current_video(self.form_video_show[0]);
