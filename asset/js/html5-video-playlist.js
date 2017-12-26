@@ -335,7 +335,6 @@
 				'height':'3px',
 				'border':'none',
 				'margin-right':'5px',
-				'background':'#ACDAFB',
 				'text-align':'left',
 				'position': 'relative',
 				'top': '9px',
