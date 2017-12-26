@@ -13,6 +13,7 @@
 			$skin = 1;
 		}
 	?>
+	
 	jQuery(document).ready(function(){
 		var fn_html5_videoplaylist = jQuery('div#html5-videoplaylist-demo').html5_video_playlist({
 			form_height: 'auto',
