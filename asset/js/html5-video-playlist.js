@@ -257,7 +257,8 @@
 				'position': 'relative',
 				'background':'url(asset/images/fullscreen.png) no-repeat center',
 				'width': '16px',
-				'height': '16px'
+				'height': '16px',
+				'margin-left':'6px'
 			});
 			self.form_control_fullscreen.attr('title', 'Full Screen');
 			self.form_control_fullscreen.click(function(){
@@ -391,7 +392,7 @@
 			self.processbar.attr('max', '100');
 			self.processbar.css({
 				'font-size':'12px',
-				'width': (self.main_form.width()-16*5-140)+'px',
+				'width': (self.main_form.width()-16*5-150)+'px',
 				'height':'3px',
 				'border':'none',
 				'margin-right':'5px',
@@ -408,7 +409,7 @@
 				'-moz-border-radius': '6px'
 			});
 			if (self.options.skin > 1){
-				self.processbar.css({'width': (self.main_form.width()-16*5-(parseInt(self.options.form_video_list_width) + 150))+'px'});
+				self.processbar.css({'width': (self.main_form.width()-16*5-(parseInt(self.options.form_video_list_width) + 150)-10)+'px'});
 			}
 			self.processbar.click(function(e){
 				var offset = jQuery(this).offset();
