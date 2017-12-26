@@ -258,7 +258,7 @@
 				'background':'url(asset/images/fullscreen.png) no-repeat center',
 				'width': '16px',
 				'height': '16px',
-				'margin-left':'6px'
+				'margin-left':'10px'
 			});
 			self.form_control_fullscreen.attr('title', 'Full Screen');
 			self.form_control_fullscreen.click(function(){
