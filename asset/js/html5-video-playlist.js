@@ -415,8 +415,8 @@
 			self.processbar_show_buffer = jQuery('<div />');
 			self.processbar_show_buffer.css({
 				'width': '0px',
-				'background':'#2C3D82',
-				'height': '4px',
+				'background':'#03899C',
+				'height': '3px',
 				'display':'inline-block',
 				'clear': 'both'
 			});
