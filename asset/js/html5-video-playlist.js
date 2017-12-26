@@ -420,6 +420,11 @@
 				'font-size': '10px',
 				'margin-top': '5px'
 			});
+			if (self.checkBrowser() == 'Firefox'){
+				self.form_control_time.css({'margin-top': '5px'});
+			}else{
+				self.form_control_time.css({'margin-top': '6px'});
+			}
 			self.form_control_time.attr('title', 'time');
 			self.form_control_time.html('&nbsp;');
 			self.form_control.append(self.form_control_time);
@@ -930,7 +935,22 @@
 			}
 			return false;
 		}
-		
+		self.checkBrowser = function(){
+			var c = navigator.userAgent.search("Chrome");
+			var f = navigator.userAgent.search("Firefox");
+			var m8 = navigator.userAgent.search("MSIE 8.0");
+			var m9 = navigator.userAgent.search("MSIE 9.0");
+			if (c > -1) {
+				var browser = "Chrome";
+			} else if (f > -1) {
+				var browser = "Firefox";
+			} else if (m9 > -1) {
+				var browser ="MSIE 9.0";
+			} else if (m8 > -1) {
+				var browser ="MSIE 8.0";
+			}
+			return browser;
+		};
 		return self;
 	};
 })(jQuery);
