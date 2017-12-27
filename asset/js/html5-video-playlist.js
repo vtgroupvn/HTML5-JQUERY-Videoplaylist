@@ -357,9 +357,9 @@
 			self.processbar_volume_show.css({
 				'width': '0px',
 				'background':'#2C3D82',
-				'height': '3px',
+				'height': '4px',
 				'display':'inline-block',
-				'margin-top': '0px'
+				'margin-top': '-1px'
 			});			
 			self.processbar_volume_show.html('&nbsp;');
 			self.processbar_volume.append(self.processbar_volume_show);
@@ -465,9 +465,10 @@
 			self.processbar_show_buffer.css({
 				'width': '0px',
 				'background':'#03899C',
-				'height': '3px',
+				'height': '4px',
 				'display':'inline-block',
-				'clear': 'both'
+				'clear': 'both',
+				'margin-top':'-1px'
 			});
 			self.processbar.append(self.processbar_show_buffer);
 			self.processbar_show = jQuery('<div />');
@@ -660,6 +661,7 @@
 					}
 					var video_thum = jQuery('<img />');
 					video_thum.attr('src', self.options.video_list[n].thumbnail);
+					video_thum.attr('alt', self.options.video_list[n].description);
 					video_thum.css({
 						'width': '80px',
 						'height': '100px',
@@ -761,6 +763,7 @@
 			}
 			var video_thum = jQuery('<img />');
 			video_thum.attr('src', self.options.video_list[self.options.video_list.length-1].thumbnail);
+			video_thum.attr('alt', self.options.video_list[self.options.video_list.length-1].description);
 			video_thum.css({
 				'width': '80px',
 				'height': '100px',
