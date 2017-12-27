@@ -359,7 +359,7 @@
 				'background':'#2C3D82',
 				'height': '4px',
 				'display':'inline-block',
-				'margin-top': '-1px'
+				'margin-top': '0px'
 			});			
 			self.processbar_volume_show.html('&nbsp;');
 			self.processbar_volume.append(self.processbar_volume_show);
@@ -465,11 +465,14 @@
 			self.processbar_show_buffer.css({
 				'width': '0px',
 				'background':'#03899C',
-				'height': '4px',
+				'height': '3px',
 				'display':'inline-block',
 				'clear': 'both',
-				'margin-top':'-1px'
+				'margin-top':'0px'
 			});
+			if (self.checkBrowser() == 'Chrome'){
+				self.processbar_show_buffer.css({'height': '4px', 'margin-top':'-1px'});
+			}
 			self.processbar.append(self.processbar_show_buffer);
 			self.processbar_show = jQuery('<div />');
 			self.processbar_show.css({
@@ -519,7 +522,7 @@
 				'text-align': 'center'
 			});
 			self.main_form.css(self.options.form_extra_style);
-			if (self.options.skin == 1){				
+			if (self.options.skin == 1){
 				self.main_video = jQuery('<div />');
 				self.main_video.css({
 					'width': self.options.form_width,
