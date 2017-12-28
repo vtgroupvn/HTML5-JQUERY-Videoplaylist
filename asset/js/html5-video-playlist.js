@@ -54,18 +54,21 @@
 				self.currently_active_video = 0;
 			}
 			self.clearScreenLoading();
+			self.video_pause = false;
 			self.form_video.html('');
 			self.form_video.hide();
 			self.form_video_show = jQuery('<video />');
 			if (self.options.skin == 1){
 				self.form_video_show.css({
 					'height': '100%', 
-					'width': '100%'
+					'width': '100%',
+					'cursor': 'pointer'
 				});
 			}else{
 				self.form_video_show.css({
 					'height': self.options.form_height - self.options.form_video_description_height, 
-					'width': '100%'					
+					'width': '100%',
+					'cursor': 'pointer'					
 				});
 			}
 			self.form_video_show.attr('id', 'video-show');
@@ -187,6 +190,15 @@
 				self.form_video.show();
 				self.form_control.show();
 			});
+			self.form_video_show.click(function(){
+				if(!self.video_pause){
+					self.video_pause = true;
+					self.form_video_show[0].pause();
+				}else{
+					self.video_pause = false;
+					self.form_video_show[0].play();
+				}
+			});
 			self.seekingDuration = function(totalWidth, duration){
 				var percentage = ( duration / totalWidth );
 				var vidTime = self.form_video_show[0].duration * percentage;
@@ -200,10 +212,10 @@
 				self.seeking_volume_percentage = ( duration / totalWidth );
 				self.form_video_show[0].volume  = self.seeking_volume_percentage;
 				self.processbar_volume_show.css({
-					'width': (100*self.seeking_volume_percentage)+'%'					
+					'width': (100*self.seeking_volume_percentage)+'%'
 				});
 				self.processbar_volume_circle.css({
-					'left': (100*self.seeking_volume_percentage)+'%'					
+					'left': (100*self.seeking_volume_percentage)+'%'		
 				});
 			}
 			if (self.seeking_volume_percentage != undefined){
