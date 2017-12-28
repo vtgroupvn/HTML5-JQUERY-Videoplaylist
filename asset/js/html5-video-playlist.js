@@ -484,11 +484,12 @@
 			self.processbar_show_buffer = jQuery('<div />');
 			self.processbar_show_buffer.css({
 				'width': '0px',
-				'background':'#03899C',
+				'background':'#33CCCC',
 				'height': '3px',
 				'display':'inline-block',
 				'clear': 'both',
-				'margin-top':'0px'
+				'margin-top':'0px',
+				'opacity': '0.5'
 			});
 			if (self.checkBrowser() == 'Chrome'){
 				self.processbar_show_buffer.css({'height': '4px', 'margin-top':'-1px'});
