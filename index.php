@@ -14,6 +14,7 @@
 		}
 	?>
 	jQuery(document).ready(function(){
+		var player_color = '#2C3D82';
 		var fn_html5_videoplaylist = jQuery('div#html5-videoplaylist-demo').html5_video_playlist({
 			form_height: 'auto',
 			form_width: '900',
@@ -25,11 +26,11 @@
 			form_extra_style : {
 				'margin': 'auto',
 				'margin-top': '20px',
-				'border': '1px solid #2C3D82',
+				'border': '1px solid '+player_color,
 				'border-radius': '60%',
-				'-webkit-box-shadow': '0px 0px 1px 2px #2C3D82',
-				'-moz-box-shadow':    '0px 0px 1px 2px #2C3D82',
-				'box-shadow':         '0px 0px 1px 2px #2C3D82',
+				'-webkit-box-shadow': '0px 0px 1px 2px '+player_color,
+				'-moz-box-shadow':    '0px 0px 1px 2px '+player_color,
+				'box-shadow':         '0px 0px 1px 2px '+player_color,
 				'-webkit-border-radius': '6px',
 				'-moz-border-radius': '6px',
 				'padding': '10px'
@@ -45,6 +46,8 @@
 			auto_next: true,
 			show_description: true,
 			show_video_list: true,
+			player_color: player_color,
+			player_buffer_color:'#33CCCC',
 			skin: <?php echo $skin;?>,//[1,2,3]-have 3 skin
 		});
 		fn_html5_videoplaylist.init();

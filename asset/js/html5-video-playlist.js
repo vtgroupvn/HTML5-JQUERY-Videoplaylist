@@ -44,6 +44,8 @@
 			auto_next: true,
 			show_description: true,
 			show_video_list: true,
+			player_color: '#2C3D82',
+			player_buffer_color:'#33CCCC',
 			skin: 1
 		}, fn_options);
 		self.draging = false;
@@ -86,10 +88,9 @@
 					'height': 'auto',
 					'width': '100%',
 					'text-align': 'left',
-					'padding-left': '10px',
 					'margin-top': '-20px',
 					'display':'inline-block',
-					'color': '#2C3D82'
+					'color': self.options.player_color
 				});
 				self.form_video_titlte = jQuery('<span />');
 				self.form_video_titlte.css({
@@ -101,7 +102,7 @@
 					'font-weight': 'bold',
 					'clear': 'both',
 					'display': 'inline-block',
-					'color': '#2C3D82'
+					'color': self.options.player_color
 				});
 				self.form_video_titlte.html(self.options.video_list[self.currently_active_video].title);
 				self.form_video_text.append(self.form_video_titlte);
@@ -114,7 +115,8 @@
 					'font-size': '14px',
 					'clear': 'both',
 					'font-style': 'italic',
-					'color': '#2C3D82'
+					'color': self.options.player_color,
+					'padding-left':'8px'
 				});
 				self.form_video_description.html(self.options.video_list[self.currently_active_video].description);
 				self.form_video_text.append(self.form_video_description);
@@ -369,10 +371,10 @@
 				'position': 'relative',
 				'top': '9px',
 				'cursor': 'pointer',
-				'border': '1px solid #2C3D82',
-				'-webkit-box-shadow': '0px 0px 5px -1px #2C3D82',
-				'-moz-box-shadow':    '0px 0px 5px -1px #2C3D82',
-				'box-shadow':         '0px 0px 5px -1px #2C3D82',
+				'border': '1px solid '+self.options.player_color,
+				'-webkit-box-shadow': '0px 0px 5px -1px '+self.options.player_color,
+				'-moz-box-shadow':    '0px 0px 5px -1px '+self.options.player_color,
+				'box-shadow':         '0px 0px 5px -1px '+self.options.player_color,
 				'-webkit-border-radius': '6px',
 				'-moz-border-radius': '6px'
 			});
@@ -422,18 +424,18 @@
 			});
 			self.processbar_volume_circle = jQuery('<div />');
 			self.processbar_volume_circle.css({
-				'background': '#094FC4',
+				'background': self.options.player_color,
 				'border-radius': '60%',
-				'-webkit-box-shadow': '0px 0px 5px -1px #094FC4',
-				'-moz-box-shadow':    '0px 0px 5px -1px #094FC4',
-				'box-shadow':         '0px 0px 5px -1px #094FC4',
+				'-webkit-box-shadow': '0px 0px 5px -1px '+self.options.player_color,
+				'-moz-box-shadow':    '0px 0px 5px -1px '+self.options.player_color,
+				'box-shadow':         '0px 0px 5px -1px '+self.options.player_color,
 				'height': '8px',
 				'width': '8px',
 				'display': 'inline-block',
 				'position': 'relative',
 				'top': '-5px',
 				'clear': 'both',
-				'border': '2px solid #094FC4',
+				'border': '2px solid '+self.options.player_color,
 				'position': 'absolute',
 				'margin-left': '-3px',				
 				'cursor': 'pointer',
@@ -478,10 +480,10 @@
 				'cursor': 'pointer',
 				'top': '9px',
 				'cursor': 'pointer',
-				'border': '1px solid #2C3D82',
-				'-webkit-box-shadow': '0px 0px 5px -1px #2C3D82',
-				'-moz-box-shadow':    '0px 0px 5px -1px #2C3D82',
-				'box-shadow':         '0px 0px 5px -1px #2C3D82',
+				'border': '1px solid '+self.options.player_color,
+				'-webkit-box-shadow': '0px 0px 5px -1px '+self.options.player_color,
+				'-moz-box-shadow':    '0px 0px 5px -1px '+self.options.player_color,
+				'box-shadow':         '0px 0px 5px -1px '+self.options.player_color,
 				'-webkit-border-radius': '6px',
 				'-moz-border-radius': '6px'
 			});
@@ -497,7 +499,7 @@
 			self.processbar_show_buffer = jQuery('<div />');
 			self.processbar_show_buffer.css({
 				'width': '0px',
-				'background':'#33CCCC',
+				'background':self.options.player_buffer_color,
 				'height': '3px',
 				'display':'inline-block',
 				'clear': 'both',
@@ -514,7 +516,7 @@
 			self.processbar_show = jQuery('<div />');
 			self.processbar_show.css({
 				'width': '0px',
-				'background':'#2C3D82',
+				'background': self.options.player_color,
 				'height': '4px',
 				'display':'inline-block',
 				'margin-top': '0px',
@@ -525,18 +527,18 @@
 			self.processbar.append(self.processbar_show);
 			self.processbar_circle = jQuery('<div />');
 			self.processbar_circle.css({
-				'background': '#094FC4',
+				'background': self.options.player_color,
 				'border-radius': '60%',
-				'-webkit-box-shadow': '0px 0px 5px -1px #094FC4',
-				'-moz-box-shadow':    '0px 0px 5px -1px #094FC4',
-				'box-shadow':         '0px 0px 5px -1px #094FC4',
+				'-webkit-box-shadow': '0px 0px 5px -1px '+self.options.player_color,
+				'-moz-box-shadow':    '0px 0px 5px -1px '+self.options.player_color,
+				'box-shadow':         '0px 0px 5px -1px '+self.options.player_color,
 				'height': '8px',
 				'width': '8px',
 				'display': 'inline-block',
 				'position': 'relative',
 				'top': '-5px',
 				'clear': 'both',
-				'border': '2px solid #094FC4',
+				'border': '2px solid '+self.options.player_color,
 				'position': 'absolute',
 				'margin-left': '-3px',				
 				'cursor': 'pointer',
@@ -705,9 +707,9 @@
 					video_thum.css({
 						'width': '80px',
 						'height': '100px',
-						'-webkit-box-shadow': '0px 0px 4px -1px #2C3D82',
-						'-moz-box-shadow':    '0px 0px 4px -1px #2C3D82',
-						'box-shadow':         '0px 0px 4px -1px #2C3D82',
+						'-webkit-box-shadow': '0px 0px 4px -1px '+self.options.player_color,
+						'-moz-box-shadow':    '0px 0px 4px -1px '+self.options.player_color,
+						'box-shadow':         '0px 0px 4px -1px '+self.options.player_color,
 						'-webkit-border-radius': '8px',
 						'-moz-border-radius': '8px'
 					});
@@ -807,9 +809,9 @@
 			video_thum.css({
 				'width': '80px',
 				'height': '100px',
-				'-webkit-box-shadow': '0px 0px 4px -1px #2C3D82',
-				'-moz-box-shadow':    '0px 0px 4px -1px #2C3D82',
-				'box-shadow':         '0px 0px 4px -1px #2C3D82',
+				'-webkit-box-shadow': '0px 0px 4px -1px '+self.options.player_color,
+				'-moz-box-shadow':    '0px 0px 4px -1px '+self.options.player_color,
+				'box-shadow':         '0px 0px 4px -1px '+self.options.player_color,
 				'-webkit-border-radius': '8px',
 				'-moz-border-radius': '8px'
 			});
@@ -1006,7 +1008,6 @@
 			var bg_load = jQuery('<div />');
 			bg_load.attr('id', 'pre-load');
 			bg_load.css({
-				
 				'position': 'absolute',
 				'width': self.main_form.width(),
 				'height': self.form_video.height(),
@@ -1040,9 +1041,9 @@
 				'width': '70px',
 				'height': '70px',
 				'position': 'absolute',
-				'-webkit-box-shadow': '0px 0px 3px 0px #2A4480',
-				'-moz-box-shadow':    '0px 0px 3px 0px #2A4480',
-				'box-shadow':         '0px 0px 3px 0px #2A4480',
+				'-webkit-box-shadow': '0px 0px 3px 0px '+self.options.player_color,
+				'-moz-box-shadow':    '0px 0px 3px 0px '+self.options.player_color,
+				'box-shadow':         '0px 0px 3px 0px '+self.options.player_color,
 				'-webkit-border-radius': '6px',
 				'-moz-border-radius': '6px',
 				'left': self.main_form.position().left+(self.main_form.width()/2) - 35,
@@ -1050,7 +1051,7 @@
 				'text-align': 'center'
 			});
 			if (self.options.skin == 2){
-				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)+20});
+				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)-120});
 			}
 			if (self.options.skin == 3){
 				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)-90});
