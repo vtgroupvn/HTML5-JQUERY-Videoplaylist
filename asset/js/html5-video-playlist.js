@@ -423,7 +423,7 @@
 					});
 				}
 			});
-			self.processbar_volume_circle = jQuery('<span />');
+			self.processbar_volume_circle = jQuery('<div />');
 			self.processbar_volume_circle.css({
 				'background': self.options.player_color,
 				'border-radius': '60%',
@@ -845,13 +845,12 @@
 			document.addEventListener("dragover", function(event) {
 				event.preventDefault();
 			}, false);
-			document.addEventListener("drop", function(event) {				
+			document.addEventListener("drop", function(event) {			
 				event.preventDefault();
-				self.draging = false;
-				self.draging_volume = false;
-				if (jQuery(event.target).parents('div#progress-bar').length > 0){
-					var offset = self.processbar.offset();
-					var left = (event.pageX - offset.left);
+				if (self.draging && self.mouseInDuration(event.pageX)){
+					self.draging = false;
+					var position = self.processbar.position();
+					var left = (event.pageX - position.left);
 					var totalWidth = self.processbar.width();
 					
 					self.processbar_circle.css({
@@ -860,9 +859,15 @@
 					});
 					self.seekingDuration(totalWidth, left);
 				}
-				if (jQuery(event.target).parents('div#progress-bar-volume').length > 0){
-					var offset = self.processbar_volume.offset();
-					var left = (event.pageX - offset.left);
+				if (self.processbar_circle.css('display') == 'none'){
+					self.processbar_circle.css({
+						'display':'block' 
+					});
+				}
+				if (self.draging_volume && self.mouseInVolume(event.pageX)){
+					self.draging_volume = false;
+					var position = self.processbar_volume.position();
+					var left = (event.pageX - position.left);
 					var totalWidth = self.processbar_volume.width();
 					
 					self.processbar_volume_circle.css({
@@ -872,9 +877,6 @@
 					self.seekingVolume(totalWidth, left);
 				}
 				if (self.processbar_volume_circle.css('display') == 'none'){
-					var offset = self.processbar_volume.offset();
-					var left = (event.pageX - offset.left);
-					var totalWidth = self.processbar_volume.width();
 					self.processbar_volume_circle.css({
 						'display':'block' 
 					});
@@ -896,7 +898,7 @@
 							'z-index': '1',
 							'display': 'block'
 						});
-					}console.log(event.pageX);
+					}
 					if (self.mouseInDuration(event.pageX)){
 						var offset = self.processbar.offset();
 						var left = (event.pageX - offset.left);
