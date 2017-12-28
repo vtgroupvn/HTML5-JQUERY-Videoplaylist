@@ -841,10 +841,7 @@
 				crt.style.display = "none";
 				document.body.appendChild(crt);
 				event.dataTransfer.setDragImage(crt, 0, 0);
-			}, false);
-			document.addEventListener("dragover", function(event) {
-				event.preventDefault();
-			}, false);
+			}, false);			
 			document.addEventListener("drop", function(event) {			
 				event.preventDefault();
 				if (self.draging && self.mouseInDuration(event.pageX)){
@@ -881,30 +878,71 @@
 						'display':'block' 
 					});
 				}
-			}, false);		
-			self.processbar[0].addEventListener("dragover", function(event) {
+			}, false);
+			document.addEventListener("dragover", function(event) {
 				event.preventDefault();
-					var offset = self.processbar.offset();
-					var duration = (event.pageX - offset.left);
-					var totalWidth = self.processbar.width();
-					self.processbar_circle.css({
-						'display':'none'
-					});
-					var percentage = 100*( duration / totalWidth );
-					if (percentage <= 100){		
-						self.processbar_show.css({
-							'width': percentage+'%',
-							'padding-left': '5px',
-							'z-index': '1',
-							'display': 'block'
-						});
-					}
+				if (self.draging){
 					if (self.mouseInDuration(event.pageX)){
 						var offset = self.processbar.offset();
-						var left = (event.pageX - offset.left);
-						var totalWidth = jQuery(this).width();
-						self.seekingDuration(totalWidth, left);
+						var duration = (event.pageX - offset.left);
+						var totalWidth = self.processbar.width();
+						self.processbar_circle.css({
+							'display':'none'
+						});
+						var percentage = 100*( duration / totalWidth );
+						if (percentage <= 100){		
+							self.processbar_show.css({
+								'width': percentage+'%',
+								'padding-left': '5px',
+								'z-index': '1',
+								'display': 'block'
+							});
+						}
 					}
+				}
+				if (self.draging_volume){
+					if (self.mouseInVolume(event.pageX)){
+						var offset = self.processbar_volume.offset();
+						var duration = (event.pageX - offset.left);
+						var totalWidth = self.processbar_volume.width();
+						self.processbar_volume_circle.css({
+							'display':'none'
+						});
+						var percentage = 100*( duration / totalWidth );
+						if (percentage <= 100){		
+							self.processbar_volume_show.css({
+								'width': percentage+'%',
+								'padding-left': '5px',
+								'z-index': '1',
+								'display': 'block'
+							});
+						}
+					}
+				}
+			}, false);
+			self.processbar[0].addEventListener("dragover", function(event) {
+				event.preventDefault();
+				var offset = self.processbar.offset();
+				var duration = (event.pageX - offset.left);
+				var totalWidth = self.processbar.width();
+				self.processbar_circle.css({
+					'display':'none'
+				});
+				var percentage = 100*( duration / totalWidth );
+				if (percentage <= 100){		
+					self.processbar_show.css({
+						'width': percentage+'%',
+						'padding-left': '5px',
+						'z-index': '1',
+						'display': 'block'
+					});
+				}
+				if (self.mouseInDuration(event.pageX)){
+					var offset = self.processbar.offset();
+					var left = (event.pageX - offset.left);
+					var totalWidth = jQuery(this).width();
+					self.seekingDuration(totalWidth, left);
+				}
 			}, false);
 			self.processbar_volume[0].addEventListener("dragover", function(event) {
 				var offset = self.processbar_volume.offset();
