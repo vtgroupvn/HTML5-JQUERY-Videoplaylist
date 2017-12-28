@@ -27,9 +27,9 @@
 				'margin-top': '20px',
 				'border': '1px solid #2C3D82',
 				'border-radius': '60%',
-				'-webkit-box-shadow': '0px 0px 8px -1px #2C3D82',
-				'-moz-box-shadow':    '0px 0px 8px -1px #2C3D82',
-				'box-shadow':         '0px 0px 8px -1px #2C3D82',
+				'-webkit-box-shadow': '0px 0px 1px 2px #2C3D82',
+				'-moz-box-shadow':    '0px 0px 1px 2px #2C3D82',
+				'box-shadow':         '0px 0px 1px 2px #2C3D82',
 				'-webkit-border-radius': '6px',
 				'-moz-border-radius': '6px',
 				'padding': '10px'

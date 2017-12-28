@@ -181,6 +181,7 @@
 						'display': 'block'					
 					});
 				}
+				self.clearScreenLoading();
 			}, false);
 			self.form_video_show[0].addEventListener('loadeddata', function(){
 				self.form_video.show();
