@@ -41,6 +41,7 @@
 				{title: 'Phia sau mot co gai', description: 'Phia sau mot co gai', thumbnail:'asset/images/3.png', src: 'asset/videos/PhiaSauMotCoGai.mp4', type: 'video/mp4'}
 			],
 			get_current_video: function(video){
+				//TODO: Process video
 			},
 			auto_play: true,
 			auto_next: true,

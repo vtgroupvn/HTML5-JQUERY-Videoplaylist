@@ -39,6 +39,7 @@
 				{title: 'video 1', description: 'video 1', src: 'http://vt-gropup.vn', type: 'video/mp4'}
 			],
 			get_current_video: function(video){
+				//TODO: Process video
 			},
 			auto_play: true,
 			auto_next: true,
