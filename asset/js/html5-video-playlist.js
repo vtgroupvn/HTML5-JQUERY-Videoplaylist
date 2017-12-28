@@ -243,7 +243,7 @@
 				'margin': '3px',
 				'cursor': 'pointer',
 				'position': 'relative',
-				'background':'url(asset/images/next.png) no-repeat center',
+				'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-next.png) no-repeat center',
 				'width': '16px',
 				'height': '16px'
 			});
@@ -261,7 +261,7 @@
 				'margin': '3px',
 				'cursor': 'pointer',
 				'position': 'relative',
-				'background':'url(asset/images/pause.png) no-repeat center',
+				'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-pause.png) no-repeat center',
 				'width': '16px',
 				'height': '16px'
 			});
@@ -278,7 +278,7 @@
 				'margin': '3px',
 				'cursor': 'pointer',
 				'position': 'relative',
-				'background':'url(asset/images/play.png) no-repeat center',
+				'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-play.png) no-repeat center',
 				'width': '16px',
 				'height': '16px'
 			});
@@ -295,7 +295,7 @@
 				'margin': '3px',
 				'cursor': 'pointer',
 				'position': 'relative',
-				'background':'url(asset/images/prev.png) no-repeat center',
+				'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-prev.png) no-repeat center',
 				'width': '16px',
 				'height': '16px'
 			});
@@ -312,7 +312,7 @@
 				'margin': '3px',
 				'cursor': 'pointer',
 				'position': 'relative',
-				'background':'url(asset/images/fullscreen.png) no-repeat center',
+				'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-fullscreen.png) no-repeat center',
 				'width': '16px',
 				'height': '16px',
 				'margin-left':'10px'
@@ -389,7 +389,7 @@
 			self.processbar_volume_show = jQuery('<div />');
 			self.processbar_volume_show.css({
 				'width': '0px',
-				'background':'#2C3D82',
+				'background':self.options.player_color,
 				'height': '4px',
 				'display':'inline-block',
 				'margin-top': '0px'
@@ -406,7 +406,7 @@
 				'margin': '3px',
 				'cursor': 'pointer',
 				'position': 'relative',
-				'background':'url(asset/images/volume.png) no-repeat center',
+				'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-volume.png) no-repeat center',
 				'width': '16px',
 				'height': '16px'
 			});
@@ -415,11 +415,11 @@
 				self.form_video_show[0].muted = !(self.form_video_show[0].muted);
 				if (self.form_video_show[0].muted){
 					self.form_control_volume.css({
-						'background':'url(asset/images/unvolume.png) no-repeat center'
+						'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-unvolume.png) no-repeat center'
 					});
 				}else{
 					self.form_control_volume.css({
-						'background':'url(asset/images/volume.png) no-repeat center'
+						'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-volume.png) no-repeat center'
 					});
 				}
 			});
@@ -448,7 +448,7 @@
 			/** TIME **/
 			self.form_control_time = jQuery('<span />');
 			self.form_control_time.css({
-				'color':'#094FC4',
+				'color':self.options.player_color,
 				'float': 'right',
 				'margin': '3px',
 				'cursor': 'pointer',
@@ -647,7 +647,7 @@
 					self.prev_video.attr('class', 'prev-video');
 					self.prev_video.css({
 						'float': 'left',
-						'background':'url(asset/images/prev-video-slide.png) no-repeat center',
+						'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-prev-video-slide.png) no-repeat center',
 						'width': '30px',
 						'height': '30px',
 						'cursor': 'pointer',
@@ -728,7 +728,7 @@
 					self.next_video.attr('class', 'next-video');
 					self.next_video.css({
 						'float': 'right',
-						'background':'url(asset/images/next-video-slide.png) no-repeat center',
+						'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-next-video-slide.png) no-repeat center',
 						'width': '30px',
 						'height': '30px',
 						'cursor': 'pointer',
@@ -898,6 +898,10 @@
 								'display': 'block'
 							});
 						}
+						var offset = self.processbar.offset();
+						var left = (event.pageX - offset.left);
+						var totalWidth = jQuery(this).width();
+						self.seekingDuration(totalWidth, left);
 					}
 				}
 				if (self.draging_volume){
@@ -917,6 +921,10 @@
 								'display': 'block'
 							});
 						}
+						var offset = self.processbar_volume.offset();
+						var left = (event.pageX - offset.left);
+						var totalWidth = self.processbar_volume.width();
+						self.seekingVolume(totalWidth, left);
 					}
 				}
 			}, false);

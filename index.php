@@ -53,7 +53,7 @@
 			show_description: true,
 			show_video_list: true,
 			player_color: player_color,
-			player_buffer_color:'#33CCCC',
+			player_buffer_color:player_color,
 			skin: <?php echo $skin;?>,//[1,2,3]-have 3 skin
 		});
 		fn_html5_videoplaylist.init();
