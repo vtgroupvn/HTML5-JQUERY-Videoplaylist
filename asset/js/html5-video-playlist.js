@@ -53,6 +53,7 @@
 			if (self.currently_active_video >= self.options.video_list.length || self.currently_active_video < 0){
 				self.currently_active_video = 0;
 			}
+			self.clearScreenLoading();
 			self.form_video.html('');
 			self.form_video.hide();
 			self.form_video_show = jQuery('<video />');
@@ -79,11 +80,12 @@
 			{
 				self.form_video_text = jQuery('<div />');
 				self.form_video_text.css({
-					'height': self.options.form_video_description_height,
+					'height': 'auto',
 					'width': '100%',
 					'text-align': 'left',
 					'padding-left': '10px',
-					'margin-top': '-20px'
+					'margin-top': '-20px',
+					'display':'inline-block'
 				});
 				self.form_video_titlte = jQuery('<span />');
 				self.form_video_titlte.css({
@@ -96,7 +98,7 @@
 					'clear': 'both',
 					'display': 'inline-block'
 				});
-				self.form_video_titlte.text(self.options.video_list[self.currently_active_video].title);
+				self.form_video_titlte.html(self.options.video_list[self.currently_active_video].title);
 				self.form_video_text.append(self.form_video_titlte);
 				self.form_video_description = jQuery('<span />');
 				self.form_video_description.css({
@@ -106,13 +108,14 @@
 					'text-align': 'left',
 					'font-size': '14px',
 					'clear': 'both',
-					'display': 'inline-block',
 					'font-style': 'italic'
 				});
-				self.form_video_description.text(self.options.video_list[self.currently_active_video].description);
+				self.form_video_description.html(self.options.video_list[self.currently_active_video].description);
 				self.form_video_text.append(self.form_video_description);
 				self.form_video.append(self.form_video_text);
 			}
+			self.resizeFix();
+			self.createScreenLoading();
 			if (self.options.auto_play){
 				self.form_video_show[0].play();
 			}
@@ -130,14 +133,27 @@
 				if (!self.draging){
 					self.processbar_show_buffer.css('width',perc+'%');
 				}
+				self.clearScreenLoading();
 			});
 			self.form_video_show[0].addEventListener('timeupdate', function(){
-				/**START SHOW TIME**/
 				var percentage = Math.floor((100 / self.form_video_show[0].duration) * self.form_video_show[0].currentTime);
-				var current_min = Math.floor(self.form_video_show[0].currentTime / 60);
-				var current_second = self.form_video_show[0].currentTime - current_min*60;
-				var total_min = Math.floor(self.form_video_show[0].duration / 60);
-				var total_second = self.form_video_show[0].duration - total_min*60;
+				/**START SHOW TIME**/				
+				var current_min = parseInt(Math.floor(self.form_video_show[0].currentTime / 60));
+				if (isNaN(current_min)){
+					current_min = 0;
+				}
+				var current_second =  parseInt(self.form_video_show[0].currentTime - current_min*60);
+				if (isNaN(current_second)){
+					current_second = 0;
+				}
+				var total_min =  parseInt(Math.floor(self.form_video_show[0].duration / 60));
+				if (isNaN(total_min)){
+					total_min = 0;
+				}
+				var total_second =  parseInt(self.form_video_show[0].duration - total_min*60);
+				if (isNaN(total_second)){
+					total_second = 0;
+				}
 				self.form_control_time.html(current_min+':'+current_second.toFixed(0)+'/'+total_min+':'+total_second.toFixed(0));
 				/**END SHOW TIME**/
 				if (!self.draging){
@@ -162,12 +178,10 @@
 						'display': 'block'					
 					});
 				}
-				
 			}, false);
 			self.form_video_show[0].addEventListener('loadeddata', function(){
 				self.form_video.show();
 				self.form_control.show();
-				self.resizeFix();
 			});
 			self.seekingDuration = function(totalWidth, duration){
 				var percentage = ( duration / totalWidth );
@@ -360,7 +374,10 @@
 				'height': '4px',
 				'display':'inline-block',
 				'margin-top': '0px'
-			});			
+			});	
+			if (self.checkBrowser() == 'Chrome'){
+				self.processbar_volume_show.css({'height': '4px', 'margin-top':'-1px'});
+			}
 			self.processbar_volume_show.html('&nbsp;');
 			self.processbar_volume.append(self.processbar_volume_show);
 			/**VOLUME**/
@@ -473,6 +490,9 @@
 			if (self.checkBrowser() == 'Chrome'){
 				self.processbar_show_buffer.css({'height': '4px', 'margin-top':'-1px'});
 			}
+			if (self.checkBrowser().indexOf('MSIE')){
+				self.processbar_show_buffer.css({'height': '3px', 'margin-top':'0px'});
+			}
 			self.processbar.append(self.processbar_show_buffer);
 			self.processbar_show = jQuery('<div />');
 			self.processbar_show.css({
@@ -572,8 +592,12 @@
 			self.form_video.attr('class', 'form-video');
 			self.form_video.css({
 				'width': '100%',
-				'height': self.options.form_video_height
+				'height': 'auto',
+				'display':'inline-block'
 			});
+			if (self.options.skin > 1){
+				self.form_video.css({'height': self.options.form_video_height});
+			}
 			self.main_video.append(self.form_video);
 			self.form_video_list = jQuery('<div />');
 			self.form_video_list.css({
@@ -592,17 +616,13 @@
 					'height': self.options.form_video_list_height,
 					'text-align': 'center',
 					'position': 'relative',
-					'margin-top': '60px',
 					'border-radius': '22px',
 					'border-top-right-radius': '0px',
 					'border-top-left-radius': '0px',
-					'border-right':' none',
+					'border-right':'none',
 					'display':'inline-block'
 				});
 				if (self.options.skin == 1){
-					self.slide_video.css({
-						'margin-top': '70px'
-					});
 					self.prev_video = jQuery('<div />');
 					self.prev_video.attr('class', 'prev-video');
 					self.prev_video.css({
@@ -891,22 +911,21 @@
 			}, false);
 		};
 		self.resizeFix = function(){
+			self.form_video.css({'display':'inline-block'});
 			if (self.options.skin > 1)
-			{
+			{				
 				jQuery(self).css({
 					'clear': 'both',
 					'display': 'inline-block',
 					'text-align': 'center'
 				});
 				self.main_form.css({
-					'height': self.main_video.height()+54
+					'height': self.main_video.height()+self.form_video_text.height()+50
+				});
+				self.slide_video.css({
+					'height': self.main_video.height()+self.form_video_text.height()+50
 				});
 				jQuery(self).css({'display': 'block'});
-				self.slide_video.css({'height':jQuery(this).innerHeight()-25, 'margin-top': '0px'});
-			}else{
-				self.main_form.css({
-					'height': self.main_video.height()+200
-				});
 			}
 		};
 		self.init = function(){
@@ -965,6 +984,74 @@
 			}
 			return browser;
 		};
+		self.createScreenLoading = function()
+		{
+			var bg_load = jQuery('<div />');
+			bg_load.attr('id', 'pre-load');
+			bg_load.css({
+				
+				'position': 'absolute',
+				'width': self.main_form.width(),
+				'height': self.form_video.height(),
+				'opacity': 1,
+				'top': self.main_form.offset().top,
+				'left': self.main_form.offset().left
+			});
+			if (self.options.skin == 2){
+				bg_load.css({
+					'position': 'absolute',
+					'width': self.form_video.width(),
+					'height': self.form_video.height(),
+					'opacity': 1,
+					'top': self.main_form.offset().top,
+					'left': self.main_form.offset().left+parseInt(self.options.form_video_list_width)+17
+				});
+			}
+			if (self.options.skin == 3){
+				bg_load.css({
+					'position': 'absolute',
+					'width': self.form_video.width(),
+					'height': self.form_video.height(),
+					'opacity': 1,
+					'top': self.main_form.offset().top,
+					'left': self.main_form.offset().left
+				});
+			}
+			var container_load = jQuery('<div />');
+			container_load.css({
+				'background': '#FFF',
+				'width': '70px',
+				'height': '70px',
+				'position': 'absolute',
+				'-webkit-box-shadow': '0px 0px 3px 0px #2A4480',
+				'-moz-box-shadow':    '0px 0px 3px 0px #2A4480',
+				'box-shadow':         '0px 0px 3px 0px #2A4480',
+				'-webkit-border-radius': '6px',
+				'-moz-border-radius': '6px',
+				'left': self.main_form.position().left+(self.main_form.width()/2) - 35,
+				'top': jQuery(self).position().top-15,
+				'text-align': 'center'
+			});
+			if (self.options.skin == 2){
+				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)+20});
+			}
+			if (self.options.skin == 3){
+				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)-90});
+			}
+			var container_img = jQuery('<img />');
+			container_img.attr('src', 'asset/images/ajax-loader.gif');
+			container_img.attr('width', '50px');
+			container_img.css({'margin-top':'10px'});
+			container_load.append(container_img);
+			bg_load.append(container_load);
+			jQuery(self).append(bg_load);
+		}
+		self.clearScreenLoading = function()
+		{
+			if (jQuery(self).find('div#pre-load').length > 0){
+				jQuery(self).find('div#pre-load').remove();
+			}
+		}
 		return self;
 	};
 })(jQuery);
