@@ -666,7 +666,8 @@
 						'height': self.options.form_video_list_height,
 						'padding': '0px 8px',
 						'width': (self.main_form.width() - 80) + 'px',
-						'overflow-x': 'hidden'
+						'overflow-x': 'hidden',
+						'overflow-y': 'hidden'
 					});
 				}else{
 					self.list_video.css({
@@ -708,11 +709,9 @@
 					video_thum.css({
 						'width': '80px',
 						'height': '100px',
-						'-webkit-box-shadow': '0px 0px 4px -1px '+self.options.player_color,
-						'-moz-box-shadow':    '0px 0px 4px -1px '+self.options.player_color,
-						'box-shadow':         '0px 0px 4px -1px '+self.options.player_color,
 						'-webkit-border-radius': '8px',
-						'-moz-border-radius': '8px'
+						'-moz-border-radius': '8px',
+						'margin-top':'2px'
 					});
 					video.append(video_thum);
 					self.list_video.append(video);
@@ -810,11 +809,9 @@
 			video_thum.css({
 				'width': '80px',
 				'height': '100px',
-				'-webkit-box-shadow': '0px 0px 4px -1px '+self.options.player_color,
-				'-moz-box-shadow':    '0px 0px 4px -1px '+self.options.player_color,
-				'box-shadow':         '0px 0px 4px -1px '+self.options.player_color,
 				'-webkit-border-radius': '8px',
-				'-moz-border-radius': '8px'
+				'-moz-border-radius': '8px',
+				'margin-top':'2px'
 			});
 			video.append(video_thum);
 			self.list_video.append(video);
