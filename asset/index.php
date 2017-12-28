@@ -12,13 +12,9 @@
 		if ($skin > 3 || $skin < 0){
 			$skin = 1;
 		}
-		$color = (string) $_REQUEST['select_color'];
-		if ($color == ''){
-			$color = '#2C3D82';
-		}
 	?>
 	jQuery(document).ready(function(){
-		var player_color = '<?php echo $color;?>';
+		var player_color = '#2C3D82';
 		var fn_html5_videoplaylist = jQuery('div#html5-videoplaylist-demo').html5_video_playlist({
 			form_height: 'auto',
 			form_width: '900',
@@ -28,7 +24,6 @@
 			form_video_list_height: '100',
 			form_video_list_width: '120',
 			form_extra_style : {
-				'background':+player_color,
 				'margin': 'auto',
 				'margin-top': '20px',
 				'border': '1px solid '+player_color,
@@ -46,7 +41,6 @@
 				{title: 'Phia sau mot co gai', description: 'Phia sau mot co gai', thumbnail:'asset/images/3.png', src: 'asset/videos/PhiaSauMotCoGai.mp4', type: 'video/mp4'}
 			],
 			get_current_video: function(video){
-				//TODO: Process video
 			},
 			auto_play: true,
 			auto_next: true,
@@ -70,12 +64,6 @@
 		<option value="1" <?php if ($skin == 1){echo 'selected="selected"';}?>>TOP to BOTTOM</option>
 		<option value="2" <?php if ($skin == 2){echo 'selected="selected"';}?>>LEFT to RIGHT</option>
 		<option value="3" <?php if ($skin == 3){echo 'selected="selected"';}?>>RIGHT to LEFT</option>
-	</select>
-	<select name="select_color" onChange="this.form.submit();">
-		<option value="0" selected="selected">--Select Color--</option>
-		<option value="#2C3D82" <?php if ($color == '#2C3D82'){echo 'selected="selected"';}?>>Blue</option>
-		<option value="#FFAA00" <?php if ($color == '#FFAA00'){echo 'selected="selected"';}?>>Yellow</option>
-		<option value="#A60000" <?php if ($color == '#A60000'){echo 'selected="selected"';}?>>Red</option>
 	</select>
 </center>
 <div id="html5-videoplaylist-demo"></div>
