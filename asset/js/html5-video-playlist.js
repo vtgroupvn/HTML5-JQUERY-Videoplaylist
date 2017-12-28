@@ -85,7 +85,8 @@
 					'text-align': 'left',
 					'padding-left': '10px',
 					'margin-top': '-20px',
-					'display':'inline-block'
+					'display':'inline-block',
+					'color': '#2C3D82'
 				});
 				self.form_video_titlte = jQuery('<span />');
 				self.form_video_titlte.css({
@@ -96,7 +97,8 @@
 					'font-size': '14px',
 					'font-weight': 'bold',
 					'clear': 'both',
-					'display': 'inline-block'
+					'display': 'inline-block',
+					'color': '#2C3D82'
 				});
 				self.form_video_titlte.html(self.options.video_list[self.currently_active_video].title);
 				self.form_video_text.append(self.form_video_titlte);
@@ -108,7 +110,8 @@
 					'text-align': 'left',
 					'font-size': '14px',
 					'clear': 'both',
-					'font-style': 'italic'
+					'font-style': 'italic',
+					'color': '#2C3D82'
 				});
 				self.form_video_description.html(self.options.video_list[self.currently_active_video].description);
 				self.form_video_text.append(self.form_video_description);
