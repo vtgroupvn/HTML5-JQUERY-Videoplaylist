@@ -1215,7 +1215,7 @@
 				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)-90});
 			}
 			var container_img = jQuery('<img />');
-			container_img.attr('src', 'asset/images/ajax-loader.gif');
+			container_img.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-ajax-loader.gif');
 			container_img.attr('width', '50px');
 			container_img.css({'margin-top':'10px'});
 			container_load.append(container_img);
