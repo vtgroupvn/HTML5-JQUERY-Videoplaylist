@@ -228,6 +228,8 @@
 			if (typeof self.options.get_current_video == 'function'){
 				self.options.get_current_video(self.form_video_show[0]);
 			}
+			jQuery(self).find('div.video-hover').hide();
+			jQuery(self).find('div#over-video-item-'+(self.currently_active_video+1)).show();
 		};
 		self.createControl = function(){
 			self.form_control = jQuery('<div />');
@@ -241,6 +243,7 @@
 			self.form_control_next.css({
 				'float': 'right',
 				'margin': '3px',
+				'margin-right': '0px',
 				'cursor': 'pointer',
 				'position': 'relative',
 				'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-next.png) no-repeat center',
@@ -472,7 +475,7 @@
 			self.processbar.attr('max', '100');
 			self.processbar.css({
 				'font-size':'12px',
-				'width': (self.main_form.width()-16*5-200)+'px',
+				'width': (self.main_form.width()-16*5-197)+'px',
 				'height':'3px',
 				'border':'none',
 				'margin-right':'5px',
@@ -686,20 +689,24 @@
 					if (self.options.skin == 1){
 						video.css({
 							'width': '100px',
-							'height': self.options.form_video_list_height-5,
+							'height': self.options.form_video_list_height,
 							'left': n*100+'px',
 							'position': 'absolute',
 							'cursor': 'pointer',
-							'margin': '0px 3px'
+							'margin': '0px 3px',
+							'display': 'inline-block',
+							'text-align': 'center'
 						});
 					}else{
 						video.css({
 							'width': self.options.form_video_list_width,
-							'height': self.options.form_video_list_height-5,
+							'height': '100px',
 							'position': 'relative',
 							'cursor': 'pointer',
 							'float': 'none',
-							'margin-bottom': '10px'
+							'margin-bottom': '10px',
+							'display': 'inline-block',
+							'text-align': 'center'
 						});
 
 					}
@@ -714,6 +721,59 @@
 						'margin-top':'2px'
 					});
 					video.append(video_thum);
+					var div_over = jQuery('<div />');
+					div_over.attr('class', 'video-hover');
+					div_over.attr('id', 'over-video-item-'+(n+1));
+					if (self.options.skin == 1){
+						div_over.css({
+							'position':'relative',
+							'width': '100px',
+							'height': '0px',
+							'margin-top':'-100px',
+							'cursor': 'pointer',
+							'margin': '0px 3px',
+							'display': 'inline-block',
+							'text-align': 'center',
+							'opacity': 0.8,
+							'display':'none',
+							'top': '-85px',
+							'left': '-2px'
+						});
+					}else{
+						div_over.css({
+							'position':'relative',
+							'width': self.options.form_video_list_width,
+							'height': '0px',
+							'top':'-85px',
+							'left': '-2px',
+							'cursor': 'pointer',
+							'float': 'none',
+							'margin-bottom': '10px',
+							'display': 'inline-block',
+							'text-align': 'center',
+							'opacity': 0.8,
+							'display':'none'
+						});
+					}
+					video[0].addEventListener("mouseover", function(){
+						jQuery(self).find('div.video-hover').hide();
+						jQuery(this).find('div.video-hover').css({
+							'height': '100px'
+						}).show();
+					})
+					jQuery(self).find('div.video-item').mouseout(function(){
+						jQuery(this).find('div.video-hover').css({
+							'height': '0px'
+						}).hide();
+						jQuery(self).find('div#over-video-item-'+(self.currently_active_video+1)).show();
+					});
+					var overlay_img = jQuery('<img />');
+					overlay_img.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-play-button.png');
+					overlay_img.attr('width', '40px');
+					overlay_img.attr('height', '40px');
+					overlay_img.css({'margin-top':'15px'});
+					div_over.append(overlay_img);
+					video.append(div_over);					
 					self.list_video.append(video);
 					video.click(function(){
 						self.currently_active_video = parseInt(jQuery(this).attr('data-video-id'));
@@ -790,16 +850,20 @@
 					'left': (self.options.video_list.length-1)*100+'px',
 					'position': 'absolute',
 					'cursor': 'pointer',
-					'margin': '0px 3px'
+					'margin': '0px 3px',
+					'display': 'inline-block',
+					'text-align': 'center'
 				});
 			}else{
 				video.css({
 					'width': self.options.form_video_list_width,
-					'height': self.options.form_video_list_height-5,
+					'height': '100px',
 					'position': 'relative',
 					'cursor': 'pointer',
 					'float': 'none',
-					'margin-bottom': '10px'
+					'margin-bottom': '10px',
+					'display': 'inline-block',
+					'text-align': 'center'
 				});
 
 			}
@@ -814,7 +878,61 @@
 				'margin-top':'2px'
 			});
 			video.append(video_thum);
+			var div_over = jQuery('<div />');
+			div_over.attr('class', 'video-hover');
+			div_over.attr('id', 'over-video-item-'+(self.options.video_list.length));
+			if (self.options.skin == 1){
+				div_over.css({
+					'position':'relative',
+					'width': '100px',
+					'height': '0px',
+					'margin-top':'-100px',
+					'cursor': 'pointer',
+					'margin': '0px 3px',
+					'display': 'inline-block',
+					'text-align': 'center',
+					'opacity': 0.8,
+					'display':'none',
+					'top': '-85px',
+					'left': '-2px'
+				});
+			}else{
+				div_over.css({
+					'position':'relative',
+					'width': self.options.form_video_list_width,
+					'height': '0px',
+					'top':'-85px',
+					'left': '-2px',
+					'cursor': 'pointer',
+					'float': 'none',
+					'margin-bottom': '10px',
+					'display': 'inline-block',
+					'text-align': 'center',
+					'opacity': 0.8,
+					'display':'none'
+				});
+			}
+			
+			var overlay_img = jQuery('<img />');
+			overlay_img.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-play-button.png');
+			overlay_img.attr('width', '40px');
+			overlay_img.attr('height', '40px');
+			overlay_img.css({'margin-top':'15px'});
+			div_over.append(overlay_img);
+			video.append(div_over);
 			self.list_video.append(video);
+			video[0].addEventListener("mouseover", function(){
+				jQuery(self).find('div.video-hover').hide();
+				jQuery(this).find('div.video-hover').css({
+					'height': '100px'
+				}).show();
+			})
+			jQuery(self).find('div.video-item').mouseout(function(){
+				jQuery(this).find('div.video-hover').css({
+					'height': '0px'
+				}).hide();
+				jQuery(self).find('div#over-video-item-'+(self.currently_active_video+1)).show();
+			});
 			video.click(function(){
 				self.currently_active_video = parseInt(jQuery(this).attr('data-video-id'));
 				self.loadVideo();
