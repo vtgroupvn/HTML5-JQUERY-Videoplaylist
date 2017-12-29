@@ -736,8 +736,7 @@
 							'text-align': 'center',
 							'opacity': 0.8,
 							'display':'none',
-							'top': '-85px',
-							'left': '-2px'
+							'top': '-85px'
 						});
 					}else{
 						div_over.css({
@@ -745,7 +744,6 @@
 							'width': self.options.form_video_list_width,
 							'height': '0px',
 							'top':'-85px',
-							'left': '-2px',
 							'cursor': 'pointer',
 							'float': 'none',
 							'margin-bottom': '10px',
@@ -893,8 +891,7 @@
 					'text-align': 'center',
 					'opacity': 0.8,
 					'display':'none',
-					'top': '-85px',
-					'left': '-2px'
+					'top': '-85px'
 				});
 			}else{
 				div_over.css({
@@ -902,7 +899,6 @@
 					'width': self.options.form_video_list_width,
 					'height': '0px',
 					'top':'-85px',
-					'left': '-2px',
 					'cursor': 'pointer',
 					'float': 'none',
 					'margin-bottom': '10px',
