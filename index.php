@@ -72,7 +72,7 @@
 		<option value="3" <?php if ($skin == 3){echo 'selected="selected"';}?>>RIGHT to LEFT</option>
 	</select>
 	<select name="select_color" onChange="this.form.submit();">
-		<option value="0" selected="selected">--Select Color--</option>
+		<option value="" selected="selected">--Select Color--</option>
 		<option value="#2C3D82" <?php if ($color == '#2C3D82'){echo 'selected="selected"';}?>>Blue</option>
 		<option value="#FFAA00" <?php if ($color == '#FFAA00'){echo 'selected="selected"';}?>>Yellow</option>
 		<option value="#A60000" <?php if ($color == '#A60000'){echo 'selected="selected"';}?>>Red</option>
