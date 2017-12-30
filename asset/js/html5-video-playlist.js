@@ -55,12 +55,12 @@
 		self.draging = false;
 		self.draging_volume = false;
 		self.currently_active_video = 0;
+		self.video_pause = false;
 		self.loadVideo = function(){
 			if (self.currently_active_video >= self.options.video_list.length || self.currently_active_video < 0){
 				self.currently_active_video = 0;
 			}
 			self.clearScreenLoading();
-			self.video_pause = false;
 			if (!self.options.auto_play){
 				self.video_pause = true;
 			}
@@ -249,7 +249,11 @@
 			jQuery(self).find('div.video-hover').hide();
 			jQuery(self).find('div#over-video-item-'+(self.currently_active_video+1)).show();
 			if (self.options.auto_play){
-				self.form_video_show[0].play();
+				if (!self.video_pause){
+					self.form_video_show[0].play();
+				}else{
+					self.form_video_show[0].pause();
+				}
 			}
 		};
 		self.createControl = function(){
