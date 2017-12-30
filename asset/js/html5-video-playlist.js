@@ -10,7 +10,7 @@
 		if (typeof this == undefined){
 			return;
 		}else{
-			jQuery(self).attr('id', 'html5-video-playlist');
+			//jQuery(self).attr('id', 'html5-video-playlist');
 		}
 		self.options = jQuery.extend({
 			form_height: '500',
@@ -49,6 +49,9 @@
 			player_buffer_color:'#33CCCC',
 			skin: 1
 		}, fn_options);
+		if (!self.options.show_video_list){
+			self.options.skin = 1;
+		}
 		self.draging = false;
 		self.draging_volume = false;
 		self.currently_active_video = 0;
@@ -192,27 +195,28 @@
 			self.form_video_show[0].addEventListener('loadeddata', function(){
 				self.form_video.show();
 				self.form_control.show();
-			});
-			self.createOverLayVideo();
-			self.form_video_show_overlay.click(function(){
-				if(!self.video_pause){
-					self.video_pause = true;
-					self.form_video_show[0].pause();
-					jQuery(self).find('div#video-orverlay-thum').find('img').attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-play.png');						
+				
+				self.createOverLayVideo();
+				self.form_video_show_overlay.click(function(){
+					if(!self.video_pause){
+						self.video_pause = true;
+						self.form_video_show[0].pause();
+						jQuery(self).find('div#video-orverlay-thum').find('img').attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-play.png');						
+						self.form_video_show_overlay.find('img').show();
+					}else{
+						self.video_pause = false;
+						self.form_video_show[0].play();
+						jQuery(self).find('div#video-orverlay-thum').find('img').attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-pause.png');						
+					}
+				});
+				self.form_video_show_overlay[0].addEventListener("mouseover", function(){
 					self.form_video_show_overlay.find('img').show();
-				}else{
-					self.video_pause = false;
-					self.form_video_show[0].play();
-					jQuery(self).find('div#video-orverlay-thum').find('img').attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-pause.png');						
-				}
-			});
-			self.form_video_show_overlay[0].addEventListener("mouseover", function(){
-				self.form_video_show_overlay.find('img').show();
-			});
-			self.form_video_show_overlay.mouseout(function(){
-				if(!self.video_pause){
-					self.form_video_show_overlay.find('img').hide();
-				}
+				});
+				self.form_video_show_overlay.mouseout(function(){
+					if(!self.video_pause){
+						self.form_video_show_overlay.find('img').hide();
+					}
+				});
 			});
 			self.seekingDuration = function(totalWidth, duration){
 				var percentage = ( duration / totalWidth );
@@ -348,10 +352,24 @@
 						'min-height': '100%',
 						'width': 'auto',
 						'height': 'auto',
-						'z-index': '9999',
+						'z-index': '999',
 						'background-size':'cover'
 					});
 				}
+				self.form_video_show_overlay.css({
+					'position': 'fixed',
+					'right': 0, 
+					'bottom': 0,
+					'min-width': '100%', 
+					'min-height': '100%',
+					'width': 'auto',
+					'height': 'auto',
+					'z-index': '999',
+					'background-size':'cover',
+					'top': self.form_video_show.position().top+self.form_video_show.height()/2-250,
+					'left': self.form_video_show.position().left,
+					'text-align': 'center'
+				});
 				document.onkeydown = function(evt) {
 					evt = evt || window.event;
 					var isEscape = false;
@@ -369,6 +387,18 @@
 								'width': '100%',
 								'height': '100%',
 								'z-index': '0'
+							});
+							self.form_video_show_overlay.css({
+								'height': self.form_video_show.innerHeight(), 
+								'width': self.form_video_show.innerWidth(),
+								'cursor': 'pointer',
+								'position': 'absolute',
+								'display': 'block',
+								'top': self.form_video_show.position().top+self.form_video_show.height()/2-250,
+								'left': self.form_video_show.position().left,
+								'text-align': 'center',
+								'min-width': '', 
+								'min-height': '',
 							});
 						}
 					}
@@ -588,13 +618,17 @@
 					'width': self.options.form_width,
 					'height': self.options.form_height - self.options.form_video_list_height
 				});
-				self.main_video_list = jQuery('<div />');
-				self.main_video_list.css({
-					'width': '100%',
-					'height': self.options.form_video_list_height
-				});
+				if (self.options.show_video_list){
+					self.main_video_list = jQuery('<div />');
+					self.main_video_list.css({
+						'width': '100%',
+						'height': self.options.form_video_list_height
+					});
+				}
 				self.main_form.append(self.main_video);
-				self.main_form.append(self.main_video_list);
+				if (self.options.show_video_list){
+					self.main_form.append(self.main_video_list);
+				}
 			}else if (self.options.skin == 2){
 				self.main_video = jQuery('<div />');
 				self.main_video.css({
@@ -603,21 +637,25 @@
 					'float': 'left',
 					'margin-left': '10px'
 				});
-				self.main_video_list = jQuery('<div />');
-				self.main_video_list.css({
-					'width': self.options.form_video_list_width,
-					'height': self.options.form_height,
-					'float': 'left'
-				});
-				self.main_form.append(self.main_video_list);
+				if (self.options.show_video_list){
+					self.main_video_list = jQuery('<div />');
+					self.main_video_list.css({
+						'width': self.options.form_video_list_width,
+						'height': self.options.form_height,
+						'float': 'left'
+					});
+					self.main_form.append(self.main_video_list);
+				}
 				self.main_form.append(self.main_video);
 			}else if(self.options.skin == 3){
-				self.main_video_list = jQuery('<div />');
-				self.main_video_list.css({
-					'width': self.options.form_video_list_width,
-					'height': self.options.form_height,
-					'float': 'left'
-				});
+				if (self.options.show_video_list){
+					self.main_video_list = jQuery('<div />');
+					self.main_video_list.css({
+						'width': self.options.form_video_list_width,
+						'height': self.options.form_height,
+						'float': 'left'
+					});
+				}
 				self.main_video = jQuery('<div />');
 				self.main_video.css({
 					'width': self.options.form_width-self.options.form_video_list_width-10,
@@ -626,7 +664,9 @@
 					'margin-right': '10px'
 				});
 				self.main_form.append(self.main_video);
-				self.main_form.append(self.main_video_list);
+				if (self.options.show_video_list){
+					self.main_form.append(self.main_video_list);
+				}
 			}
 			self.form_video = jQuery('<div />');
 			self.form_video.attr('class', 'form-video');
@@ -854,6 +894,9 @@
 				return;
 			}
 			self.options.video_list.push(video_details);
+			if (!self.options.show_video_list){
+				return;
+			}
 			var video = jQuery('<div />');
 			video.attr('class', 'video-item');
 			video.attr('id', 'video-item-'+(self.options.video_list.length));
@@ -1113,12 +1156,27 @@
 					'display': 'inline-block',
 					'text-align': 'center'
 				});
-				self.main_form.css({
-					'height': self.main_video.height()+self.form_video_text.height()+50
-				});
-				self.slide_video.css({
-					'height': self.main_video.height()+self.form_video_text.height()+50
-				});
+				if (self.options.show_video_list){
+					if (self.options.show_description){
+						self.slide_video.css({
+							'height': self.main_video.height()+self.form_video_text.height()+50
+						});
+					}else{
+						self.slide_video.css({
+							'height': self.main_video.height()+50
+						});
+					}
+				}
+				if (self.options.show_description){
+					self.main_form.css({
+						'height': self.main_video.height()+self.form_video_text.height()+50
+					});
+				}else{
+					self.main_form.css({
+						'height': self.main_video.height()+50
+					});
+				}
+				
 				jQuery(self).css({'display': 'block'});
 			}
 		};
@@ -1182,12 +1240,12 @@
 			self.form_video_show_overlay = jQuery('<div />');
 			self.form_video_show_overlay.attr('id', 'video-orverlay-thum');
 			self.form_video_show_overlay.css({
-				'height': self.form_video_show.height()+60, 
+				'height': self.form_video_show.height(), 
 				'width': self.form_video_show.width(),
 				'cursor': 'pointer',
 				'position': 'absolute',
 				'display': 'block',
-				'top': self.form_video_show.position().top+self.form_video_show.height()/2-230,
+				'top': self.form_video_show.position().top+self.form_video_show.height()/2-250,
 				'left': self.form_video_show.position().left,
 				'text-align': 'center'
 			});
