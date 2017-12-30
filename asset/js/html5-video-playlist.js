@@ -566,7 +566,7 @@
 				'margin-top':'0px',
 				'opacity': '0.5'
 			});
-			if (!self.options.auto_play){
+			//if (!self.options.auto_play){
 				self.processbar_show_buffer.css({
 					'float': 'left',
 					'margin-top': '-24px'
@@ -579,7 +579,7 @@
 				if (self.checkBrowser().indexOf('MSIE') != -1){
 					self.processbar_show_buffer.css({'height': '3px', 'margin-top':'0px'});
 				}
-			}
+			//}
 			self.processbar.append(self.processbar_show_buffer);
 			self.processbar_show = jQuery('<div />');
 			self.processbar_show.css({
@@ -588,12 +588,8 @@
 				'height': '4px',
 				'display':'inline-block',
 				'margin-top': '0px',
-				'margin-top': '-4px',
 				'position': 'relative'
 			});
-			if (!self.options.auto_play){
-				self.processbar_show.css({'margin-top': '0px'});
-			}
 			self.processbar_show.html('&nbsp;');
 			self.processbar.append(self.processbar_show);
 			self.processbar_circle = jQuery('<div />');
