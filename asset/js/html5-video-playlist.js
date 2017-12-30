@@ -197,7 +197,7 @@
 				self.form_control.show();
 				
 				self.createOverLayVideo();
-				self.form_video_show_overlay.click(function(){
+				self.form_video_show_overlay.unbind("click").click(function(){
 					if(!self.video_pause){
 						self.video_pause = true;
 						self.form_video_show[0].pause();
@@ -212,7 +212,7 @@
 				self.form_video_show_overlay[0].addEventListener("mouseover", function(){
 					self.form_video_show_overlay.find('img').show();
 				});
-				self.form_video_show_overlay.mouseout(function(){
+				self.form_video_show_overlay.unbind("mouseout").mouseout(function(){
 					if(!self.video_pause){
 						self.form_video_show_overlay.find('img').hide();
 					}
