@@ -10,7 +10,7 @@
 		if (typeof this == undefined){
 			return;
 		}else{
-			//jQuery(self).attr('id', 'html5-video-playlist');
+			jQuery(self).attr('class', 'html5-video-playlist');
 		}
 		self.options = jQuery.extend({
 			form_height: '500',
@@ -394,12 +394,17 @@
 								'cursor': 'pointer',
 								'position': 'absolute',
 								'display': 'block',
-								'top': self.form_video_show.position().top+self.form_video_show.height()/2-250,
+								'top': self.form_video_show.position().top+self.form_video_show.height()/2-200,
 								'left': self.form_video_show.position().left,
 								'text-align': 'center',
 								'min-width': '', 
 								'min-height': '',
 							});
+							if (self.checkBrowser() == 'Firefox'){
+								self.form_video_show_overlay.css({
+									'top': self.form_video_show.position().top+self.form_video_show.height()/2-250
+								});
+							}
 						}
 					}
 				};
@@ -1250,7 +1255,7 @@
 				'text-align': 'center'
 			});
 			if (self.options.skin > 1){
-				self.form_video_show_overlay.css({'top': self.form_video_show.position().top+self.form_video_show.height()/2-205});
+				self.form_video_show_overlay.css({'top': self.form_video_show.position().top+self.form_video_show.height()/2-215});
 			}
 			var video_overlay_thum = jQuery('<img />');
 			video_overlay_thum.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-pause.png');
