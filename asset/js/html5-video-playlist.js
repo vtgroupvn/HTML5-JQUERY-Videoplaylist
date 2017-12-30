@@ -61,7 +61,7 @@
 			}
 			self.clearScreenLoading();
 			self.video_pause = false;
-			if (self.options.auto_play){
+			if (!self.options.auto_play){
 				self.video_pause = true;
 			}
 			self.form_video.html('');
@@ -217,11 +217,6 @@
 						self.form_video_show_overlay.find('img').hide();
 					}
 				});
-				if (!self.options.auto_play){
-					self.video_pause = true;
-					jQuery(self).find('div#video-orverlay-thum').find('img').attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-play.png');						
-					self.form_video_show_overlay.find('img').show();
-				}
 			});
 			self.seekingDuration = function(totalWidth, duration){
 				var percentage = ( duration / totalWidth );
@@ -572,11 +567,19 @@
 				'margin-top':'0px',
 				'opacity': '0.5'
 			});
-			if (self.checkBrowser() == 'Chrome'){
-				self.processbar_show_buffer.css({'height': '4px', 'margin-top':'-1px'});
-			}
-			if (self.checkBrowser().indexOf('MSIE')){
-				self.processbar_show_buffer.css({'height': '3px', 'margin-top':'0px'});
+			if (!self.options.auto_play){
+				self.processbar_show_buffer.css({
+					'float': 'left',
+					'margin-top': '-24px'
+				});
+				if (self.checkBrowser() == 'Chrome'){
+					self.processbar_show_buffer.css({'height': '4px', 'margin-top':'-24px'});
+				}else{
+					self.processbar_show_buffer.css({'height': '4px', 'margin-top':'-23px'});
+				}
+				if (self.checkBrowser().indexOf('MSIE') != -1){
+					self.processbar_show_buffer.css({'height': '3px', 'margin-top':'0px'});
+				}
 			}
 			self.processbar.append(self.processbar_show_buffer);
 			self.processbar_show = jQuery('<div />');
@@ -588,7 +591,10 @@
 				'margin-top': '0px',
 				'margin-top': '-4px',
 				'position': 'relative'
-			});			
+			});
+			if (!self.options.auto_play){
+				self.processbar_show.css({'margin-top': '0px'});
+			}
 			self.processbar_show.html('&nbsp;');
 			self.processbar.append(self.processbar_show);
 			self.processbar_circle = jQuery('<div />');
@@ -1367,6 +1373,10 @@
 			video_overlay_thum.css({'display':'none'});
 			self.form_video_show_overlay.append(video_overlay_thum);
 			jQuery(self).append(self.form_video_show_overlay);
+			if(!self.options.auto_play){
+				jQuery(self).find('div#video-orverlay-thum').find('img').attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-play.png');						
+				self.form_video_show_overlay.find('img').show();
+			}
 		};
 		self.createScreenLoading = function()
 		{
