@@ -1350,6 +1350,9 @@
 			return browser;
 		};
 		self.createOverLayVideo = function(){
+			if (jQuery(self).find('div#video-orverlay-thum').length > 0){
+				return;
+			}
 			self.form_video_show_overlay = jQuery('<div />');
 			self.form_video_show_overlay.attr('id', 'video-orverlay-thum');
 			self.form_video_show_overlay.css({
