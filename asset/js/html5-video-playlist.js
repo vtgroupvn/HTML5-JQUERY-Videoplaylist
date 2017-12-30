@@ -223,6 +223,8 @@
 				var vidTime = self.form_video_show[0].duration * percentage;
 				self.form_video_show[0].currentTime = vidTime;
 				self.form_video_show[0].play();
+				self.video_pause = false;
+				jQuery(self).find('div#video-orverlay-thum').find('img').attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-pause.png');						
 			};
 			self.processbar_volume_show.css({
 				'width': (100*self.form_video_show[0].volume)+'%'					
