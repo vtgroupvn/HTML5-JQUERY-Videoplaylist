@@ -403,17 +403,12 @@
 								'cursor': 'pointer',
 								'position': 'absolute',
 								'display': 'block',
-								'top': self.form_video_show.position().top+self.form_video_show.height()/2-200,
+								'top': self.form_video_show.position().top+self.form_video_show.height()/2-250,
 								'left': self.form_video_show.position().left,
 								'text-align': 'center',
 								'min-width': '', 
 								'min-height': '',
 							});
-							if (self.checkBrowser() == 'Firefox'){
-								self.form_video_show_overlay.css({
-									'top': self.form_video_show.position().top+self.form_video_show.height()/2-250
-								});
-							}
 						}
 					}
 				};
