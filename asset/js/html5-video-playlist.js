@@ -689,7 +689,7 @@
 			self.processbar.append(self.processbar_show_duration);
 			self.processbar[0].addEventListener("mouseover", function(event){
 				self.processbar_show_duration.css({
-					'left': event.pageX-270,
+					'left': event.pageX-277,
 					'top': '-90px',
 					'display': 'block'
 				});
