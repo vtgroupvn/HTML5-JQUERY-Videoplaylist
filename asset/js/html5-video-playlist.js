@@ -1261,11 +1261,7 @@
 			video_overlay_thum.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-pause.png');
 			video_overlay_thum.attr('width', '80px');
 			video_overlay_thum.attr('height', '80px');
-			if (self.options.skin > 1){
-				video_overlay_thum.css({'margin-top':self.form_video_show.height()/2-20});
-			}else{
-				video_overlay_thum.css({'margin-top':self.form_video_show.height()/2-30});
-			}			
+			video_overlay_thum.css({'margin-top':self.form_video_show.height()/2-50});
 			video_overlay_thum.css({'display':'none'});
 			self.form_video_show_overlay.append(video_overlay_thum);
 			jQuery(self).append(self.form_video_show_overlay);
