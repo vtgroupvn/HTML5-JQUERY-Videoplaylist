@@ -44,7 +44,7 @@
 			auto_play: true,
 			auto_next: true,
 			show_controls: true,
-			show_video_hint: true,
+			show_capture_hint: true,
 			show_description: true,
 			show_video_list: true,
 			player_color: '#2C3D82',
@@ -672,7 +672,7 @@
 					'left': '-25px',
 				});
 			}
-			if (self.options.show_video_hint)
+			if (self.options.show_capture_hint)
 			{
 				self.processbar_show_duration_header.append(self.processbar_show_duration_header_child);
 				self.processbar_show_duration_conteiner = jQuery('<div/>');
