@@ -695,11 +695,19 @@
 				self.processbar_show_duration.append(self.processbar_show_duration_conteiner);
 				self.processbar.append(self.processbar_show_duration);
 				self.processbar[0].addEventListener("mouseover", function(event){
-					self.processbar_show_duration.css({
-						'left': event.pageX-280,
-						'top': '-90px',
-						'display': 'inline-block'
-					});
+					if (self.options.skin != 2){
+						self.processbar_show_duration.css({
+							'left': event.pageX-280,
+							'top': '-90px',
+							'display': 'inline-block'
+						});
+					}else{
+						self.processbar_show_duration.css({
+							'left': event.pageX-(parseInt(self.options.form_video_list_width) + 290),
+							'top': '-90px',
+							'display': 'inline-block'
+						});
+					}
 					var offset = self.processbar.offset();
 					var left = (event.pageX - offset.left);
 					var totalWidth = jQuery(this).width();
