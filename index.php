@@ -50,13 +50,15 @@
 			},
 			auto_play: true,
 			auto_next: true,
+			show_controls:true,
+			show_capture_hint: true,
 			show_description: true,
 			show_video_list: true,
 			player_color: player_color,
 			player_buffer_color:player_color,
 			skin: <?php echo $skin;?>,//[1,2,3]-have 3 skin
 		});
-		fn_html5_videoplaylist.init();
+		fn_html5_videoplaylist.compile();
 		fn_html5_videoplaylist.add_new_video({title: 'Despacito', description: 'Despacito', thumbnail:'asset/images/1.png', src: 'asset/videos/Despacito.mp4', type: 'video/mp4'});
 	});
 </script>
