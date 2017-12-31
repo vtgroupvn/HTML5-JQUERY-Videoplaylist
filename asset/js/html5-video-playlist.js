@@ -44,6 +44,7 @@
 			auto_play: true,
 			auto_next: true,
 			show_controls: true,
+			show_video_hint: true,
 			show_description: true,
 			show_video_list: true,
 			player_color: '#2C3D82',
@@ -671,42 +672,45 @@
 					'left': '-25px',
 				});
 			}
-			self.processbar_show_duration_header.append(self.processbar_show_duration_header_child);
-			self.processbar_show_duration_conteiner = jQuery('<div/>');
-			self.processbar_show_duration_conteiner.css({
-				'margin': 'auto',
-				'text-align': 'center',
-				'padding': '25px'
-			});
-			self.capture_video = self.form_video_show.clone(true);
-			self.capture_video.css({
-				'width': '100px',
-				'height': '50px',
-				'margin': '-18px'
-			});
-			self.capture_form_video_source = jQuery('<source />');
-			self.capture_video.append(self.capture_form_video_source);
-			self.capture_video.append('Your browser does not support HTML5 video.');
-			self.processbar_show_duration_conteiner.append(self.capture_video);
-			self.processbar_show_duration.append(self.processbar_show_duration_header);
-			self.processbar_show_duration.append(self.processbar_show_duration_conteiner);
-			self.processbar.append(self.processbar_show_duration);
-			self.processbar[0].addEventListener("mouseover", function(event){
-				self.processbar_show_duration.css({
-					'left': event.pageX-280,
-					'top': '-90px',
-					'display': 'inline-block'
+			if (self.options.show_video_hint)
+			{
+				self.processbar_show_duration_header.append(self.processbar_show_duration_header_child);
+				self.processbar_show_duration_conteiner = jQuery('<div/>');
+				self.processbar_show_duration_conteiner.css({
+					'margin': 'auto',
+					'text-align': 'center',
+					'padding': '25px'
 				});
-				var offset = self.processbar.offset();
-				var left = (event.pageX - offset.left);
-				var totalWidth = jQuery(this).width();
-				var percentage = ( left / totalWidth );
-				var vidTime = self.capture_video[0].duration * percentage;
-				self.capture_video[0].currentTime = vidTime;
-			});
-			self.processbar.mouseout(function(){
-				self.processbar_show_duration.hide();
-			});
+				self.capture_video = self.form_video_show.clone(true);
+				self.capture_video.css({
+					'width': '100px',
+					'height': '50px',
+					'margin': '-18px'
+				});
+				self.capture_form_video_source = jQuery('<source />');
+				self.capture_video.append(self.capture_form_video_source);
+				self.capture_video.append('Your browser does not support HTML5 video.');
+				self.processbar_show_duration_conteiner.append(self.capture_video);
+				self.processbar_show_duration.append(self.processbar_show_duration_header);
+				self.processbar_show_duration.append(self.processbar_show_duration_conteiner);
+				self.processbar.append(self.processbar_show_duration);
+				self.processbar[0].addEventListener("mouseover", function(event){
+					self.processbar_show_duration.css({
+						'left': event.pageX-280,
+						'top': '-90px',
+						'display': 'inline-block'
+					});
+					var offset = self.processbar.offset();
+					var left = (event.pageX - offset.left);
+					var totalWidth = jQuery(this).width();
+					var percentage = ( left / totalWidth );
+					var vidTime = self.capture_video[0].duration * percentage;
+					self.capture_video[0].currentTime = vidTime;
+				});
+				self.processbar.mouseout(function(){
+					self.processbar_show_duration.hide();
+				});
+			}
 			self.form_control.append(self.processbar);
 			self.form_video.append(self.form_control);
 			self.initDrag();
