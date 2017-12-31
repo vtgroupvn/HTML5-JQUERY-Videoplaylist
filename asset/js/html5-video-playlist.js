@@ -566,20 +566,16 @@
 				'margin-top':'0px',
 				'opacity': '0.5'
 			});
-			//if (!self.options.auto_play){
-				self.processbar_show_buffer.css({
-					'float': 'left',
-					'margin-top': '-24px'
-				});
-				if (self.checkBrowser() == 'Chrome'){
-					self.processbar_show_buffer.css({'height': '4px', 'margin-top':'-24px'});
-				}else{
-					self.processbar_show_buffer.css({'height': '4px', 'margin-top':'-23px'});
-				}
-				if (self.checkBrowser().indexOf('MSIE') != -1){
-					self.processbar_show_buffer.css({'height': '3px', 'margin-top':'0px'});
-				}
-			//}
+			self.processbar_show_buffer.css({
+				'float': 'left',
+				'margin-top': '-24px'
+			});
+			if (self.checkBrowser() != 'Chrome'){
+				self.processbar_show_buffer.css({'height': '4px', 'margin-top':'-23px'});
+			}
+			if (self.checkBrowser().indexOf('MSIE') != -1){
+				self.processbar_show_buffer.css({'height': '3px', 'margin-top':'0px'});
+			}
 			self.processbar.append(self.processbar_show_buffer);
 			self.processbar_show = jQuery('<div />');
 			self.processbar_show.css({
@@ -689,9 +685,9 @@
 			self.processbar.append(self.processbar_show_duration);
 			self.processbar[0].addEventListener("mouseover", function(event){
 				self.processbar_show_duration.css({
-					'left': event.pageX-277,
+					'left': event.pageX-280,
 					'top': '-90px',
-					'display': 'block'
+					'display': 'inline-block'
 				});
 				var offset = self.processbar.offset();
 				var left = (event.pageX - offset.left);
@@ -1432,7 +1428,7 @@
 			container_img.css({'margin-top':'10px'});
 			container_load.append(container_img);
 			bg_load.append(container_load);
-			jQuery(self).append(bg_load);
+			self.form_video.append(bg_load);
 		}
 		self.clearScreenLoading = function()
 		{
