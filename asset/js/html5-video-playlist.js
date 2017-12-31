@@ -915,7 +915,7 @@
 							'text-align': 'center',
 							'opacity': 0.8,
 							'display':'none',
-							'top': 25
+							'top': 30
 						});
 					}else{
 						div_over.css({
@@ -947,7 +947,11 @@
 					overlay_img.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-play-button.png');
 					overlay_img.attr('width', '40px');
 					overlay_img.attr('height', '40px');
-					overlay_img.css({'margin-left':'-8px'});
+					if (self.options.skin > 1){
+						overlay_img.css({'margin-left':'-3px'});
+					}else{
+						overlay_img.css({'margin-left':'-8px'});
+					}
 					div_over.append(overlay_img);
 					video.append(div_over);
 					video.click(function(){
@@ -1090,7 +1094,11 @@
 			overlay_img.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-play-button.png');
 			overlay_img.attr('width', '40px');
 			overlay_img.attr('height', '40px');
-			overlay_img.css({'margin-left':'-8px'});
+			if (self.options.skin > 1){
+				overlay_img.css({'margin-left':'-3px'});
+			}else{
+				overlay_img.css({'margin-left':'-8px'});
+			}
 			div_over.append(overlay_img);
 			video.append(div_over);
 			video.append(video_thum);
