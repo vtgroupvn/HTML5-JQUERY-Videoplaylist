@@ -43,6 +43,7 @@
 			},
 			auto_play: true,
 			auto_next: true,
+			show_controls: true,
 			show_description: true,
 			show_video_list: true,
 			player_color: '#2C3D82',
@@ -87,7 +88,9 @@
 			self.form_video_show.append(self.form_video_source);
 			self.form_video_show.append('Your browser does not support HTML5 video.');
 			self.form_video.append(self.form_video_show);
-			self.createControl();
+			if (self.options.show_controls){
+				self.createControl();
+			}
 			if (self.options.show_description)
 			{
 				self.form_video_text = jQuery('<div />');
@@ -142,46 +145,49 @@
 				var currentBuffer = self.form_video_show[0].buffered.end(0);
 				var maxduration = self.form_video_show[0].duration;
 				var perc = 100 * currentBuffer / maxduration;
-				if (!self.draging){
+				if (!self.draging && self.options.show_controls){
 					self.processbar_show_buffer.css('width',perc+'%');
 				}
 				self.clearScreenLoading();
 			});
 			self.form_video_show[0].addEventListener('timeupdate', function(){
 				var percentage = Math.floor((100 / self.form_video_show[0].duration) * self.form_video_show[0].currentTime);
-				/**START SHOW TIME**/				
-				var current_min = parseInt(Math.floor(self.form_video_show[0].currentTime / 60));
-				if (isNaN(current_min)){
-					current_min = 0;
+				/**START SHOW TIME**/
+				if (self.options.show_controls)
+				{
+					var current_min = parseInt(Math.floor(self.form_video_show[0].currentTime / 60));
+					if (isNaN(current_min)){
+						current_min = 0;
+					}
+					var current_second =  parseInt(self.form_video_show[0].currentTime - current_min*60);
+					if (isNaN(current_second)){
+						current_second = 0;
+					}
+					var total_min =  parseInt(Math.floor(self.form_video_show[0].duration / 60));
+					if (isNaN(total_min)){
+						total_min = 0;
+					}
+					var total_second =  parseInt(self.form_video_show[0].duration - total_min*60);
+					if (isNaN(total_second)){
+						total_second = 0;
+					}
+					self.form_control_time.html(current_min+':'+current_second.toFixed(0)+'/'+total_min+':'+total_second.toFixed(0));
 				}
-				var current_second =  parseInt(self.form_video_show[0].currentTime - current_min*60);
-				if (isNaN(current_second)){
-					current_second = 0;
-				}
-				var total_min =  parseInt(Math.floor(self.form_video_show[0].duration / 60));
-				if (isNaN(total_min)){
-					total_min = 0;
-				}
-				var total_second =  parseInt(self.form_video_show[0].duration - total_min*60);
-				if (isNaN(total_second)){
-					total_second = 0;
-				}
-				self.form_control_time.html(current_min+':'+current_second.toFixed(0)+'/'+total_min+':'+total_second.toFixed(0));
 				/**END SHOW TIME**/
-				if (!self.draging){
+				if (!self.draging && self.options.show_controls){
 					self.processbar_show.css({
 						'width': percentage+'%',
 						'padding-left': '5px',
 						'display': 'block'
 					});
 				}
-				if (!self.draging){
+				if (!self.draging && self.options.show_controls){
 					self.processbar_circle.css({
 						'left': (percentage)+'%',
 						'display': 'block'
 					});
 				}
-				if (!self.draging_volume && self.seeking_volume_percentage != undefined){
+				if (!self.draging_volume && self.seeking_volume_percentage != undefined && self.options.show_controls){
 					self.processbar_volume_show.css({
 						'width': (100*self.seeking_volume_percentage)+'%'					
 					});
@@ -194,7 +200,9 @@
 			}, false);
 			self.form_video_show[0].addEventListener('loadeddata', function(){
 				self.form_video.show();
-				self.form_control.show();
+				if (self.options.show_controls){
+					self.form_control.show();
+				}
 				
 				self.createOverLayVideo();
 				self.form_video_show_overlay.unbind("click").click(function(){
@@ -226,9 +234,11 @@
 				self.video_pause = false;
 				jQuery(self).find('div#video-orverlay-thum').find('img').attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-pause.png');						
 			};
-			self.processbar_volume_show.css({
-				'width': (100*self.form_video_show[0].volume)+'%'					
-			});
+			if (self.options.show_controls){
+				self.processbar_volume_show.css({
+					'width': (100*self.form_video_show[0].volume)+'%'					
+				});
+			}
 			self.seekingVolume = function(totalWidth, duration){
 				self.seeking_volume_percentage = ( duration / totalWidth );
 				self.form_video_show[0].volume  = self.seeking_volume_percentage;
@@ -239,7 +249,7 @@
 					'left': (100*self.seeking_volume_percentage)+'%'		
 				});
 			}
-			if (self.seeking_volume_percentage != undefined){
+			if (self.seeking_volume_percentage != undefined && self.options.show_controls){
 				self.form_video_show[0].volume  = self.seeking_volume_percentage;
 			}
 			/**CALLBACK THE EVENT**/
