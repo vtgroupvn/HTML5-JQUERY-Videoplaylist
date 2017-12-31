@@ -889,6 +889,7 @@
 						});
 
 					}
+					self.list_video.append(video);
 					var video_thum = jQuery('<img />');
 					video_thum.attr('src', self.options.video_list[n].thumbnail);
 					video_thum.attr('alt', self.options.video_list[n].description);
@@ -905,27 +906,25 @@
 					div_over.attr('id', 'over-video-item-'+(n+1));
 					if (self.options.skin == 1){
 						div_over.css({
-							'position':'relative',
+							'position':'absolute',
 							'width': '100px',
 							'height': '0px',
-							'margin-top':'-100px',
 							'cursor': 'pointer',
 							'margin': '0px 3px',
 							'display': 'inline-block',
 							'text-align': 'center',
 							'opacity': 0.8,
 							'display':'none',
-							'top': '-85px'
+							'top': 25
 						});
 					}else{
 						div_over.css({
-							'position':'relative',
+							'position':'absolute',
 							'width': self.options.form_video_list_width,
 							'height': '0px',
-							'top':'-85px',
+							'top':32,
 							'cursor': 'pointer',
 							'float': 'none',
-							'margin-bottom': '10px',
 							'display': 'inline-block',
 							'text-align': 'center',
 							'opacity': 0.8,
@@ -948,10 +947,9 @@
 					overlay_img.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-play-button.png');
 					overlay_img.attr('width', '40px');
 					overlay_img.attr('height', '40px');
-					overlay_img.css({'margin-top':'15px'});
+					overlay_img.css({'margin-left':'-8px'});
 					div_over.append(overlay_img);
-					video.append(div_over);					
-					self.list_video.append(video);
+					video.append(div_over);
 					video.click(function(){
 						self.currently_active_video = parseInt(jQuery(this).attr('data-video-id'));
 						self.loadVideo();
@@ -1045,8 +1043,8 @@
 					'display': 'inline-block',
 					'text-align': 'center'
 				});
-
 			}
+			self.list_video.append(video);
 			var video_thum = jQuery('<img />');
 			video_thum.attr('src', self.options.video_list[self.options.video_list.length-1].thumbnail);
 			video_thum.attr('alt', self.options.video_list[self.options.video_list.length-1].description);
@@ -1057,33 +1055,31 @@
 				'-moz-border-radius': '8px',
 				'margin-top':'2px'
 			});
-			video.append(video_thum);
+			
 			var div_over = jQuery('<div />');
 			div_over.attr('class', 'video-hover');
 			div_over.attr('id', 'over-video-item-'+(self.options.video_list.length));
 			if (self.options.skin == 1){
 				div_over.css({
-					'position':'relative',
+					'position':'absolute',
 					'width': '100px',
 					'height': '0px',
-					'margin-top':'-100px',
 					'cursor': 'pointer',
 					'margin': '0px 3px',
 					'display': 'inline-block',
 					'text-align': 'center',
 					'opacity': 0.8,
 					'display':'none',
-					'top': '-85px'
+					'top': 30
 				});
 			}else{
 				div_over.css({
-					'position':'relative',
+					'position':'absolute',
 					'width': self.options.form_video_list_width,
 					'height': '0px',
-					'top':'-85px',
+					'top':32,
 					'cursor': 'pointer',
 					'float': 'none',
-					'margin-bottom': '10px',
 					'display': 'inline-block',
 					'text-align': 'center',
 					'opacity': 0.8,
@@ -1094,10 +1090,10 @@
 			overlay_img.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-play-button.png');
 			overlay_img.attr('width', '40px');
 			overlay_img.attr('height', '40px');
-			overlay_img.css({'margin-top':'15px'});
+			overlay_img.css({'margin-left':'-8px'});
 			div_over.append(overlay_img);
 			video.append(div_over);
-			self.list_video.append(video);
+			video.append(video_thum);
 			video[0].addEventListener("mouseover", function(){
 				jQuery(self).find('div.video-hover').hide();
 				jQuery(this).find('div.video-hover').css({
