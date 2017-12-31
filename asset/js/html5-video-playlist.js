@@ -668,15 +668,13 @@
 				'text-align': 'center',
 				'padding': '25px'
 			});
-			self.capture_video = jQuery('<video />');
+			self.capture_video = self.form_video_show.clone(true);
 			self.capture_video.css({
 				'width': '100px',
 				'height': '50px',
 				'margin': '-18px'
 			});
 			self.capture_form_video_source = jQuery('<source />');
-			self.capture_form_video_source.attr('type', self.options.video_list[self.currently_active_video].type);
-			self.capture_form_video_source.attr('src', self.options.video_list[self.currently_active_video].src);
 			self.capture_video.append(self.capture_form_video_source);
 			self.capture_video.append('Your browser does not support HTML5 video.');
 			self.processbar_show_duration_conteiner.append(self.capture_video);
@@ -695,8 +693,6 @@
 				var percentage = ( left / totalWidth );
 				var vidTime = self.capture_video[0].duration * percentage;
 				self.capture_video[0].currentTime = vidTime;
-				self.capture_video[0].muted = true;
-				self.capture_video[0].play();
 			});
 			self.processbar.mouseout(function(){
 				self.processbar_show_duration.hide();
