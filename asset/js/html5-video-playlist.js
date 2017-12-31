@@ -48,7 +48,7 @@
 			show_description: true,
 			show_video_list: true,
 			player_color: '#2C3D82',
-			player_buffer_color:'#33CCCC',
+			player_buffer_color:'#2C3D82',
 			skin: 1
 		}, fn_options);
 		if (!self.options.show_video_list){
