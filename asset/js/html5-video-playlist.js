@@ -620,60 +620,61 @@
 			});
 			self.processbar_circle.attr('draggable', "true");
 			self.processbar.append(self.processbar_circle);
-			self.processbar_show_duration = jQuery('<div />');
-			self.processbar_show_duration.attr('class', 'processbar-show-duration');
-			self.processbar_show_duration.css({
-				'display': 'none',
-				'position': 'absolute',
-				'width': 'auto',
-				'height': 'auto',
-				'background': '#EEEEEE',
-				'border': '1px solid '+self.options.player_color,
-				'text-align': 'center',
-				'z-index': '9999',
-				'color': self.options.player_color
-			});
-			self.processbar_show_duration_header = jQuery('<span class="icon-hint-arrow-down"/>');
-			self.processbar_show_duration_header.css({
-				'border-color': 'transparent',
-				'border-top-color': self.options.player_color,
-				'border-style': 'dashed dashed solid',
-				'border-width': '18px 18px',
-				'display': 'block',
-				'position': 'absolute',							
-				'top': '65px',
-				'z-index': '99',
-				'height': '10px',
-				'-webkit-animation': 'gb__a .2s',
-				'animation': 'gb__a .2s',
-				'background': 'transparent',
-				'margin-left':'35px'
-			});
-			self.processbar_show_duration_header_child = jQuery('<span class="icon-hint-arrow-down-hide" />');
-			self.processbar_show_duration_header_child.css({
-				'background': 'transparent',
-				'border-color': 'transparent',
-				'border-top-color': '#EEEEEE',
-				'border-style': 'dashed dashed solid',
-				'border-width': '23.5px 23.5px',
-				'display': 'block',
-				'position': 'absolute',
-				'left': '-24px',
-				'top': '-26px',
-				'z-index': '1',
-				'height': '0',
-				'width': '0',
-				'-webkit-animation': 'gb__a .2s',
-				'animation': 'gb__a .2s'
-			});
-			if (self.checkBrowser() == 'Firefox'){
-				self.processbar_show_duration_header_child.css({
-					'border-width':'23.5px 25.5px',
-					'left': '-25px',
-				});
-			}
 			if (self.options.show_capture_hint)
 			{
+				self.processbar_show_duration = jQuery('<div />');
+				self.processbar_show_duration.attr('class', 'processbar-show-duration');
+				self.processbar_show_duration.css({
+					'display': 'none',
+					'position': 'absolute',
+					'width': 'auto',
+					'height': 'auto',
+					'background': '#EEEEEE',
+					'border': '1px solid '+self.options.player_color,
+					'text-align': 'center',
+					'z-index': '9999',
+					'color': self.options.player_color
+				});
+			
+				self.processbar_show_duration_header = jQuery('<span class="icon-hint-arrow-down"/>');
+				self.processbar_show_duration_header.css({
+					'border-color': 'transparent',
+					'border-top-color': self.options.player_color,
+					'border-style': 'dashed dashed none',
+					'border-width': '18px 18px',
+					'display': 'block',
+					'position': 'absolute',							
+					'top': '65px',
+					'z-index': '99',
+					'-webkit-animation': 'gb__a .2s',
+					'animation': 'gb__a .2s',
+					'background': 'transparent',
+					'margin-left':'35px'
+				});
+				self.processbar_show_duration_header_child = jQuery('<span class="icon-hint-arrow-down-hide" />');
+				self.processbar_show_duration_header_child.css({
+					'background': 'transparent',
+					'border-color': 'transparent',
+					'border-top-color': '#EEEEEE',
+					'border-style': 'dashed dashed none',
+					'border-width': '23.5px 23.5px',
+					'display': 'block',
+					'position': 'absolute',
+					'left': '-24px',
+					'top': '-26px',
+					'z-index': '1',
+					'height': '0',
+					'width': '0',
+					'-webkit-animation': 'gb__a .2s',
+					'animation': 'gb__a .2s'
+				});
+				if (self.checkBrowser() == 'Firefox'){
+					self.processbar_show_duration_header_child.css({
+						'border-width':'23.5px 25.5px',
+						'left': '-25px',
+					});
+				}
+			
 				self.processbar_show_duration_header.append(self.processbar_show_duration_header_child);
 				self.processbar_show_duration_conteiner = jQuery('<div/>');
 				self.processbar_show_duration_conteiner.css({
@@ -691,29 +692,32 @@
 				self.capture_video.append(self.capture_form_video_source);
 				self.capture_video.append('Your browser does not support HTML5 video.');
 				self.processbar_show_duration_conteiner.append(self.capture_video);
-				self.processbar_show_duration.append(self.processbar_show_duration_header);
 				self.processbar_show_duration.append(self.processbar_show_duration_conteiner);
+				self.processbar_show_duration.append(self.processbar_show_duration_header);
 				self.processbar.append(self.processbar_show_duration);
 				self.processbar[0].addEventListener("mouseover", function(event){
-					if (self.options.skin != 2){
-						self.processbar_show_duration.css({
-							'left': event.pageX-280,
-							'top': '-90px',
-							'display': 'inline-block'
-						});
-					}else{
-						self.processbar_show_duration.css({
-							'left': event.pageX-(parseInt(self.options.form_video_list_width) + 290),
-							'top': '-90px',
-							'display': 'inline-block'
-						});
+					if (!self.draging)
+					{
+						if (self.options.skin != 2){
+							self.processbar_show_duration.css({
+								'left': event.pageX-280,
+								'top': '-90px',
+								'display': 'inline-block'
+							});
+						}else{
+							self.processbar_show_duration.css({
+								'left': event.pageX-(parseInt(self.options.form_video_list_width) + 290),
+								'top': '-90px',
+								'display': 'inline-block'
+							});
+						}
+						var offset = self.processbar.offset();
+						var left = (event.pageX - offset.left);
+						var totalWidth = jQuery(this).width();
+						var percentage = ( left / totalWidth );
+						var vidTime = self.capture_video[0].duration * percentage;
+						self.capture_video[0].currentTime = vidTime;
 					}
-					var offset = self.processbar.offset();
-					var left = (event.pageX - offset.left);
-					var totalWidth = jQuery(this).width();
-					var percentage = ( left / totalWidth );
-					var vidTime = self.capture_video[0].duration * percentage;
-					self.capture_video[0].currentTime = vidTime;
 				});
 				self.processbar.mouseout(function(){
 					self.processbar_show_duration.hide();
@@ -1122,6 +1126,7 @@
 		self.initDrag = function(){
 			self.processbar_circle[0].addEventListener("dragstart", function(event){
 				self.draging = true;
+				self.processbar_show_duration.hide();
 				event.dataTransfer.setData("Text", event.target.id);
 				
 				var crt = this.cloneNode(true);
