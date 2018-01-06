@@ -9,7 +9,7 @@
 	<?php 
 		error_reporting(0);
 		$skin = (int) $_REQUEST['select_skin'];
-		if ($skin > 3 || $skin < 0){
+		if ($skin > 3 || $skin <= 0){
 			$skin = 1;
 		}
 		$color = (string) $_REQUEST['select_color'];
@@ -18,10 +18,15 @@
 		}
 	?>
 	jQuery(document).ready(function(){
+		if (<?php echo $skin?> == 1){
+			var height = jQuery(document).height()-50;
+		}else{
+			var height = jQuery(document).height()-100;
+		}
 		var player_color = '<?php echo $color;?>';
 		var fn_html5_videoplaylist = jQuery('div#html5-videoplaylist-demo').html5_video_playlist({
-			form_height: 'auto',
-			form_width: '900',
+			form_height: height,
+			form_width: jQuery(document).width()-70,
 			form_video_control_height: '40',
 			form_video_height: '400',
 			form_video_description_height: '100',
@@ -41,9 +46,9 @@
 				'padding': '10px'
 			},
 			video_list:[			
-				{title: 'Despacito', description: 'Despacito', thumbnail:'asset/images/1.png', src: 'asset/videos/Despacito.mp4', type: 'video/mp4'},
-				{title: 'Reloi Cao Thai Son', description: 'Reloi Cao Thai Son', thumbnail:'asset/images/2.png', src: 'asset/videos/reloi.MP4', type: 'video/mp4'},
-				{title: 'Phia sau mot co gai', description: 'Phia sau mot co gai', thumbnail:'asset/images/3.png', src: 'asset/videos/PhiaSauMotCoGai.mp4', type: 'video/mp4'}
+				{title: 'Despacito', description: 'Contact infor.vtgroup@gmail.com. Skype: cuongvt2608', thumbnail:'asset/images/1.png', src: 'asset/videos/Despacito.mp4', type: 'video/mp4'},
+				{title: 'Reloi Cao Thai Son', description: 'Contact infor.vtgroup@gmail.com. Skype: cuongvt2608', thumbnail:'asset/images/2.png', src: 'asset/videos/reloi.MP4', type: 'video/mp4'},
+				{title: 'Phia sau mot co gai', description: 'Contact infor.vtgroup@gmail.com. Skype: cuongvt2608', thumbnail:'asset/images/3.png', src: 'asset/videos/PhiaSauMotCoGai.mp4', type: 'video/mp4'}
 			],
 			get_current_video: function(video){
 				//TODO: Process video
@@ -56,7 +61,7 @@
 			show_video_list: true,
 			player_color: player_color,
 			player_buffer_color:player_color,
-			skin: <?php echo $skin;?>,//[1,2,3]-have 3 skin
+			skin: <?php echo $skin;?>//[1,2,3]-have 3 skin
 		});
 		fn_html5_videoplaylist.compile();
 		fn_html5_videoplaylist.add_new_video({title: 'Despacito', description: 'Despacito', thumbnail:'asset/images/1.png', src: 'asset/videos/Despacito.mp4', type: 'video/mp4'});
@@ -65,7 +70,7 @@
 </head>
 <body>
 <form action="index.php" method="post">
-<center><img src="asset/images/jquery-plugins.jpg" alt="jQuery Plugins"/></center>
+<!--<center><img src="asset/images/jquery-plugins.jpg" alt="jQuery Plugins"/></center>-->
 <center>
 	<select name="select_skin" onChange="this.form.submit();">
 		<option value="0" selected="selected">--Select Skin--</option>

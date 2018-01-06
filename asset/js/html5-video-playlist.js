@@ -32,11 +32,11 @@
 				'-moz-border-radius': '6px',
 			},
 			video_list:[
-				{title: 'video 1', description: 'video 1', src: 'http://vt-gropup.vn', type: 'video/mp4'},
-				{title: 'video 1', description: 'video 1', src: 'http://vt-gropup.vn', type: 'video/mp4'},
-				{title: 'video 1', description: 'video 1', src: 'http://vt-gropup.vn', type: 'video/mp4'},
-				{title: 'video 1', description: 'video 1', src: 'http://vt-gropup.vn', type: 'video/mp4'},
-				{title: 'video 1', description: 'video 1', src: 'http://vt-gropup.vn', type: 'video/mp4'}
+				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
+				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
+				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
+				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
+				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'}
 			],
 			get_current_video: function(video){
 				//TODO: Process video
@@ -71,7 +71,7 @@
 			self.form_video_show = jQuery('<video />');
 			if (self.options.skin == 1){
 				self.form_video_show.css({
-					'height': '100%', 
+					'height': self.options.form_height - self.options.form_video_description_height - self.options.form_video_control_height - self.options.form_video_list_height,
 					'width': '100%',
 					'cursor': 'pointer'
 				});
@@ -206,6 +206,7 @@
 				}
 				
 				self.createOverLayVideo();
+				
 				self.form_video_show_overlay.unbind("click").click(function(){
 					if(!self.video_pause){
 						self.video_pause = true;
@@ -363,6 +364,8 @@
 			});
 			self.form_control_fullscreen.attr('title', 'Full Screen');
 			self.form_control_fullscreen.click(function(){
+				self.form_video_show_old_width = self.form_video_show.width();
+				self.form_video_show_old_height = self.form_video_show.height();
 				if (self.form_video_show.css('position') != 'fixed'){
 					self.form_video_show.css({
 						'position': 'fixed',
@@ -404,8 +407,8 @@
 								'position': 'inherit',
 								'right': 0, 
 								'bottom': 0,
-								'width': '100%',
-								'height': '100%',
+								'width': self.form_video_show_old_width,
+								'height': self.form_video_show_old_height,
 								'z-index': '0'
 							});
 							self.form_video_show_overlay.css({
@@ -414,7 +417,7 @@
 								'cursor': 'pointer',
 								'position': 'absolute',
 								'display': 'block',
-								'top': self.form_video_show.position().top+self.form_video_show.height()/2-250,
+								'top': self.form_video_show.position().top,
 								'left': self.form_video_show.position().left,
 								'text-align': 'center',
 								'min-width': '', 
@@ -700,13 +703,13 @@
 					{
 						if (self.options.skin != 2){
 							self.processbar_show_duration.css({
-								'left': event.pageX-280,
+								'left': event.pageX-85,
 								'top': '-90px',
 								'display': 'inline-block'
 							});
 						}else{
 							self.processbar_show_duration.css({
-								'left': event.pageX-(parseInt(self.options.form_video_list_width) + 290),
+								'left': event.pageX-(parseInt(self.options.form_video_list_width)+100),
 								'top': '-90px',
 								'display': 'inline-block'
 							});
@@ -1286,29 +1289,28 @@
 					'display': 'inline-block',
 					'text-align': 'center'
 				});
-				if (self.options.show_video_list){
-					if (self.options.show_description){
-						self.slide_video.css({
-							'height': self.main_video.height()+self.form_video_text.height()+50
-						});
-					}else{
-						self.slide_video.css({
-							'height': self.main_video.height()+50
-						});
-					}
-				}
-				if (self.options.show_description){
-					self.main_form.css({
-						'height': self.main_video.height()+self.form_video_text.height()+50
-					});
-				}else{
-					self.main_form.css({
-						'height': self.main_video.height()+50
-					});
-				}
+				self.slide_video.css({
+					'height': self.form_video_show.height()+self.form_video_text.outerHeight()+self.form_control.height()
+				});
+				self.main_form.css({
+					'height': self.form_video_show.height()+self.form_video_text.outerHeight()+self.form_control.height()
+				});
 				
 				jQuery(self).css({'display': 'block'});
+			}else{
+				self.form_video.css({
+					'height': 'auto'
+				});
+				self.main_video.css({
+					'height': 'auto'
+				});
+				self.main_form.css({
+					'height': 'auto'
+				});
 			}
+			jQuery(window).unbind("resize").resize(function(){
+				self.resizeFix();
+			});
 		};
 		self.mouseInVolume = function(x){
 			var divRect = self.processbar_volume;
@@ -1367,12 +1369,12 @@
 				'cursor': 'pointer',
 				'position': 'absolute',
 				'display': 'block',
-				'top': self.form_video_show.position().top+self.form_video_show.height()/2-250,
+				'top': self.form_video_show.position().top,
 				'left': self.form_video_show.position().left,
 				'text-align': 'center'
 			});
 			if (self.options.skin > 1){
-				self.form_video_show_overlay.css({'top': self.form_video_show.position().top+self.form_video_show.height()/2-215});
+				self.form_video_show_overlay.css({'top': self.form_video_show.position().top});
 			}
 			var video_overlay_thum = jQuery('<img />');
 			video_overlay_thum.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-main-video-pause.png');
@@ -1394,7 +1396,7 @@
 			bg_load.css({
 				'position': 'absolute',
 				'width': self.main_form.width(),
-				'height': self.form_video.height(),
+				'height': self.form_video_show.height()+15,
 				'opacity': 1,
 				'top': self.main_form.offset().top,
 				'left': self.main_form.offset().left
@@ -1403,7 +1405,7 @@
 				bg_load.css({
 					'position': 'absolute',
 					'width': self.form_video.width(),
-					'height': self.form_video.height(),
+					'height': self.form_video_show.height()+15,
 					'opacity': 1,
 					'top': self.main_form.offset().top,
 					'left': self.main_form.offset().left+parseInt(self.options.form_video_list_width)+17
@@ -1413,7 +1415,7 @@
 				bg_load.css({
 					'position': 'absolute',
 					'width': self.form_video.width(),
-					'height': self.form_video.height(),
+					'height': self.form_video_show.height()+15,
 					'opacity': 1,
 					'top': self.main_form.offset().top,
 					'left': self.main_form.offset().left
@@ -1431,14 +1433,14 @@
 				'-webkit-border-radius': '6px',
 				'-moz-border-radius': '6px',
 				'left': self.main_form.position().left+(self.main_form.width()/2) - 35,
-				'top': jQuery(self).position().top-15,
+				'top': self.form_video_show.position().top+(self.form_video_show.height()/2)-90,
 				'text-align': 'center'
 			});
 			if (self.options.skin == 2){
-				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)-120});
+				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)-105});
 			}
 			if (self.options.skin == 3){
-				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)-90});
+				container_load.css({'left': self.main_form.position().left+(self.main_form.width()/2)-96});
 			}
 			var container_img = jQuery('<img />');
 			container_img.attr('src', 'asset/images/'+self.options.player_color.replace('#', '')+'-ajax-loader.gif');
