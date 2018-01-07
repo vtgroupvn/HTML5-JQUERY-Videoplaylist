@@ -366,66 +366,95 @@
 			self.form_control_fullscreen.click(function(){
 				self.form_video_show_old_width = self.form_video_show.width();
 				self.form_video_show_old_height = self.form_video_show.height();
-				if (self.form_video_show.css('position') != 'fixed'){
-					self.form_video_show.css({
-						'position': 'fixed',
-						'right': 0, 
-						'bottom': 0,
-						'min-width': '100%', 
-						'min-height': '100%',
-						'width': 'auto',
-						'height': 'auto',
-						'z-index': '999',
-						'background-size':'cover'
-					});
+				if (self.form_video_show[0].requestFullscreen) {
+					self.form_video_show[0].requestFullscreen();
+				} else if (self.form_video_show[0].webkitRequestFullscreen) {
+					self.form_video_show[0].webkitRequestFullscreen();
+				} else if (self.form_video_show[0].mozRequestFullScreen) {
+					self.form_video_show[0].mozRequestFullScreen();
+				} else if (self.form_video_show[0].msRequestFullscreen) {
+					self.form_video_show[0].msRequestFullscreen();
 				}
-				self.form_video_show_overlay.css({
-					'position': 'fixed',
-					'right': 0, 
-					'bottom': 0,
-					'min-width': '100%', 
-					'min-height': '100%',
-					'width': 'auto',
-					'height': 'auto',
-					'z-index': '999',
-					'background-size':'cover',
-					'top': self.form_video_show.position().top+self.form_video_show.height()/2-250,
-					'left': self.form_video_show.position().left,
-					'text-align': 'center'
-				});
-				document.onkeydown = function(evt) {
-					evt = evt || window.event;
-					var isEscape = false;
-					if ("key" in evt) {
-						isEscape = (evt.key == "Escape" || evt.key == "Esc");
-					} else {
-						isEscape = (evt.keyCode == 27);
+				if (document.addEventListener)
+				{
+					document.addEventListener('webkitfullscreenchange', exitFullscreenHandler, false);
+					document.addEventListener('mozfullscreenchange', exitFullscreenHandler, false);
+					document.addEventListener('fullscreenchange', exitFullscreenHandler, false);
+					document.addEventListener('MSFullscreenChange', exitFullscreenHandler, false);
+				}
+
+				function exitFullscreenHandler()
+				{
+					if (document.webkitIsFullScreen === false)
+					{
+						self.form_video_show.css({
+							'position': 'inherit',
+							'right': 0, 
+							'bottom': 0,
+							'width': self.form_video_show_old_width,
+							'height': self.form_video_show_old_height,
+							'z-index': '0'
+						});
+						self.form_video_show_overlay.css({
+							'height': self.form_video_show.innerHeight(), 
+							'width': self.form_video_show.innerWidth(),
+							'cursor': 'pointer',
+							'position': 'absolute',
+							'display': 'block',
+							'top': self.form_video_show.position().top,
+							'left': self.form_video_show.position().left,
+							'text-align': 'center',
+							'min-width': '', 
+							'min-height': '',
+						});
 					}
-					if (isEscape) {
-						if (self.form_video_show.css('position') == 'fixed'){
-							self.form_video_show.css({
-								'position': 'inherit',
-								'right': 0, 
-								'bottom': 0,
-								'width': self.form_video_show_old_width,
-								'height': self.form_video_show_old_height,
-								'z-index': '0'
-							});
-							self.form_video_show_overlay.css({
-								'height': self.form_video_show.innerHeight(), 
-								'width': self.form_video_show.innerWidth(),
-								'cursor': 'pointer',
-								'position': 'absolute',
-								'display': 'block',
-								'top': self.form_video_show.position().top,
-								'left': self.form_video_show.position().left,
-								'text-align': 'center',
-								'min-width': '', 
-								'min-height': '',
-							});
-						}
+					else if (document.mozFullScreen === false)
+					{
+						self.form_video_show.css({
+							'position': 'inherit',
+							'right': 0, 
+							'bottom': 0,
+							'width': self.form_video_show_old_width,
+							'height': self.form_video_show_old_height,
+							'z-index': '0'
+						});
+						self.form_video_show_overlay.css({
+							'height': self.form_video_show.innerHeight(), 
+							'width': self.form_video_show.innerWidth(),
+							'cursor': 'pointer',
+							'position': 'absolute',
+							'display': 'block',
+							'top': self.form_video_show.position().top,
+							'left': self.form_video_show.position().left,
+							'text-align': 'center',
+							'min-width': '', 
+							'min-height': '',
+						});
 					}
-				};
+					else if (document.msFullscreenElement === false)
+					{
+						self.form_video_show.css({
+							'position': 'inherit',
+							'right': 0, 
+							'bottom': 0,
+							'width': self.form_video_show_old_width,
+							'height': self.form_video_show_old_height,
+							'z-index': '0'
+						});
+						self.form_video_show_overlay.css({
+							'height': self.form_video_show.innerHeight(), 
+							'width': self.form_video_show.innerWidth(),
+							'cursor': 'pointer',
+							'position': 'absolute',
+							'display': 'block',
+							'top': self.form_video_show.position().top,
+							'left': self.form_video_show.position().left,
+							'text-align': 'center',
+							'min-width': '', 
+							'min-height': '',
+						});
+					}
+				}
 			});	
 			self.form_control.append(self.form_control_fullscreen);
 			/**PROCESSBAR VOLUME*/
