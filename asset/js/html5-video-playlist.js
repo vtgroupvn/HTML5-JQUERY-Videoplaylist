@@ -19,6 +19,7 @@
 			self.currently_active_video = 0;
 			self.video_pause = false;
 			self.video_current_time = 0;
+			self.no_execute_resize = false;
 			self.options = jQuery.extend({
 				form_height: '500',
 				form_width: '700',
@@ -1699,8 +1700,15 @@
 			});
 		};
 		self.compile = function(){
-			jQuery(window).unbind("resize").resize(function(){
-				self.resizeForm();
+			jQuery(document).click(function(event){
+				self.no_execute_resize = true;
+			});
+			jQuery(window).unbind("resize").resize(function(event){
+				if (self.no_execute_resize){
+					self.no_execute_resize = false;
+				}else{
+					self.resizeForm();
+				}
 			});
 			self.createForm();
 			if (self.options.show_video_list){
