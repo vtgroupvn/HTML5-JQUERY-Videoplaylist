@@ -12,52 +12,57 @@
 		}else{
 			jQuery(self).attr('class', 'html5-video-playlist');
 		}
-		self.options = jQuery.extend({
-			form_height: '500',
-			form_width: '700',
-			form_video_control_height: '40',
-			form_video_height: '400',
-			form_video_description_height: '100',
-			form_video_list_height: '100',
-			form_video_list_width: '100',
-			form_extra_style : {
-				'margin': 'auto',
-				'margin-top': '200px',
-				'border': '1px solid #2C3D82',
-				'border-radius': '60%',
-				'-webkit-box-shadow': '0px 0px 5px -1px #2C3D82',
-				'-moz-box-shadow':    '0px 0px 5px -1px #2C3D82',
-				'box-shadow':         '0px 0px 5px -1px #2C3D82',
-				'-webkit-border-radius': '6px',
-				'-moz-border-radius': '6px',
-			},
-			video_list:[
-				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
-				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
-				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
-				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
-				{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'}
-			],
-			get_current_video: function(video){
-				//TODO: Process video
-			},
-			auto_play: true,
-			auto_next: true,
-			show_controls: true,
-			show_capture_hint: true,
-			show_description: true,
-			show_video_list: true,
-			player_color: '#2C3D82',
-			player_buffer_color:'#2C3D82',
-			skin: 1
-		}, fn_options);
-		if (!self.options.show_video_list){
-			self.options.skin = 1;
-		}
-		self.draging = false;
-		self.draging_volume = false;
-		self.currently_active_video = 0;
-		self.video_pause = false;
+		
+		self.constructor = function(fn_options){
+			self.draging = false;
+			self.draging_volume = false;
+			self.currently_active_video = 0;
+			self.video_pause = false;
+			self.options = jQuery.extend({
+				form_height: '500',
+				form_width: '700',
+				form_video_control_height: '40',
+				form_video_height: '400',
+				form_video_description_height: '100',
+				form_video_list_height: '100',
+				form_video_list_width: '100',
+				form_extra_style : {
+					'margin': 'auto',
+					'margin-top': '200px',
+					'border': '1px solid #2C3D82',
+					'border-radius': '60%',
+					'-webkit-box-shadow': '0px 0px 5px -1px #2C3D82',
+					'-moz-box-shadow':    '0px 0px 5px -1px #2C3D82',
+					'box-shadow':         '0px 0px 5px -1px #2C3D82',
+					'-webkit-border-radius': '6px',
+					'-moz-border-radius': '6px',
+				},
+				video_list:[
+					{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
+					{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
+					{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
+					{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'},
+					{title: 'video 1', description: 'video 1', thumbnail:'asset/images/1.png', src: 'http://vt-gropup.vn', src_plg: 'video/mp4'}
+				],
+				get_current_video: function(video){
+					//TODO: Process video
+				},
+				auto_play: true,
+				auto_next: true,
+				show_controls: true,
+				show_capture_hint: true,
+				show_description: true,
+				show_video_list: true,
+				player_color: '#2C3D82',
+				player_buffer_color:'#2C3D82',
+				skin: 1
+			}, fn_options);
+			if (!self.options.show_video_list){
+				self.options.skin = 1;
+			}
+			
+			return self;
+		};		
 		self.loadVideo = function(){
 			if (self.currently_active_video >= self.options.video_list.length || self.currently_active_video < 0){
 				self.currently_active_video = 0;
@@ -1696,6 +1701,6 @@
 			self.loadVideo();			
 			self.resizeFix();
 		};
-		return self;
+		return self.constructor(fn_options);
 	};
 })(jQuery);
