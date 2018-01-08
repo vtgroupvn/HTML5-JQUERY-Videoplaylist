@@ -18,6 +18,7 @@
 			self.draging_volume = false;
 			self.currently_active_video = 0;
 			self.video_pause = false;
+			self.video_current_time = 0;
 			self.options = jQuery.extend({
 				form_height: '500',
 				form_width: '700',
@@ -142,6 +143,7 @@
 			self.createScreenLoading();
 			if (self.options.auto_next){
 				self.form_video_show[0].addEventListener("ended", function(e) {
+					self.video_current_time = 0;
 					self.currently_active_video++;
 					self.loadVideo();
 				});
@@ -157,6 +159,7 @@
 				self.clearScreenLoading();
 			});
 			self.form_video_show[0].addEventListener('timeupdate', function(){
+				self.video_current_time = self.form_video_show[0].currentTime;
 				var percentage = Math.floor((100 / self.form_video_show[0].duration) * self.form_video_show[0].currentTime);
 				/**START SHOW TIME**/
 				if (self.options.show_controls)
@@ -265,6 +268,9 @@
 			}
 			jQuery(self).find('div.video-hover').hide();
 			jQuery(self).find('div#over-video-item-'+(self.currently_active_video+1)).show();
+			if (self.video_current_time > 0){
+				self.form_video_show[0].currentTime = self.video_current_time;
+			}
 			if (self.options.auto_play){
 				if (!self.video_pause){
 					self.form_video_show[0].play();
@@ -294,6 +300,7 @@
 			});
 			self.form_control_next.attr('title', 'next');
 			self.form_control_next.click(function(){
+				self.video_current_time = 0;
 				self.currently_active_video++;
 				self.loadVideo();
 			});
@@ -351,6 +358,7 @@
 			});
 			self.form_control_prev.attr('title', 'prev');
 			self.form_control_prev.click(function(){
+				self.video_current_time = 0;
 				self.currently_active_video--;
 				self.loadVideo();
 			});	
@@ -1698,7 +1706,7 @@
 			if (self.options.show_video_list){
 				self.createFormList();
 			}
-			self.loadVideo();			
+			self.loadVideo();
 			self.resizeFix();
 		};
 		return self.constructor(fn_options);
