@@ -385,7 +385,7 @@
 
 				function exitFullscreenHandler()
 				{
-					if (document.webkitIsFullScreen === false)
+					if (document.webkitIsFullScreen === false || document.mozFullScreen === false || document.msFullscreenElement === false)
 					{
 						self.form_video_show.css({
 							'position': 'inherit',
@@ -405,53 +405,7 @@
 							'left': self.form_video_show.position().left,
 							'text-align': 'center',
 							'min-width': '', 
-							'min-height': '',
-						});
-					}
-					else if (document.mozFullScreen === false)
-					{
-						self.form_video_show.css({
-							'position': 'inherit',
-							'right': 0, 
-							'bottom': 0,
-							'width': self.form_video_show_old_width,
-							'height': self.form_video_show_old_height,
-							'z-index': '0'
-						});
-						self.form_video_show_overlay.css({
-							'height': self.form_video_show.innerHeight(), 
-							'width': self.form_video_show.innerWidth(),
-							'cursor': 'pointer',
-							'position': 'absolute',
-							'display': 'block',
-							'top': self.form_video_show.position().top,
-							'left': self.form_video_show.position().left,
-							'text-align': 'center',
-							'min-width': '', 
-							'min-height': '',
-						});
-					}
-					else if (document.msFullscreenElement === false)
-					{
-						self.form_video_show.css({
-							'position': 'inherit',
-							'right': 0, 
-							'bottom': 0,
-							'width': self.form_video_show_old_width,
-							'height': self.form_video_show_old_height,
-							'z-index': '0'
-						});
-						self.form_video_show_overlay.css({
-							'height': self.form_video_show.innerHeight(), 
-							'width': self.form_video_show.innerWidth(),
-							'cursor': 'pointer',
-							'position': 'absolute',
-							'display': 'block',
-							'top': self.form_video_show.position().top,
-							'left': self.form_video_show.position().left,
-							'text-align': 'center',
-							'min-width': '', 
-							'min-height': '',
+							'min-height': ''
 						});
 					}
 				}
@@ -895,7 +849,7 @@
 						'overflow-x': 'hidden',
 						'overflow-y': 'scroll'
 					});
-				}				
+				}	
 				for(var n = 0; n < self.options.video_list.length; n++){
 					var video = jQuery('<div />');
 					video.attr('class', 'video-item');
@@ -1337,9 +1291,6 @@
 					'height': 'auto'
 				});
 			}
-			jQuery(window).unbind("resize").resize(function(){
-				self.resizeFix();
-			});
 		};
 		self.mouseInVolume = function(x){
 			var divRect = self.processbar_volume;
@@ -1485,7 +1436,259 @@
 				jQuery(self).find('div#pre-load').remove();
 			}
 		};
+		self.resizeForm = function(){
+			if (jQuery(self).parents('div').length == 0){
+				if (self.options.skin == 1){
+					self.options.form_height = jQuery(window).height()-50;
+				}else{
+					self.options.form_height = jQuery(window).height()-60;
+				}
+				self.options.form_width = jQuery(window).width() - 70;
+			}else{
+				if (self.options.skin == 1){
+					self.options.form_height = jQuery(self).height()-50;
+				}else{
+					self.options.form_height = jQuery(self).height()-60;
+				}
+				self.options.form_width = jQuery(self).width() - 70;
+			}
+			self.main_form.css({
+				'width': self.options.form_width,
+				'height': self.options.form_height,
+				'text-align': 'center'
+			});
+			self.main_form.css(self.options.form_extra_style);
+			if (self.options.skin == 1){
+				self.main_video.css({
+					'width': self.options.form_width,
+					'height': self.options.form_height - self.options.form_video_list_height
+				});
+				if (self.options.show_video_list){
+					self.main_video_list.css({
+						'width': '100%',
+						'height': self.options.form_video_list_height
+					});
+				}
+			}else if (self.options.skin == 2){
+				self.main_video.css({
+					'width': self.options.form_width-self.options.form_video_list_width-10,
+					'height': self.options.form_height - self.options.form_video_list_height,
+					'float': 'left',
+					'margin-left': '10px'
+				});
+				if (self.options.show_video_list){
+					self.main_video_list.css({
+						'width': self.options.form_video_list_width,
+						'height': self.options.form_height,
+						'float': 'left'
+					});
+				}
+			}else if(self.options.skin == 3){
+				if (self.options.show_video_list){
+					self.main_video_list.css({
+						'width': self.options.form_video_list_width,
+						'height': self.options.form_height,
+						'float': 'left'
+					});
+				}
+				self.main_video.css({
+					'width': self.options.form_width-self.options.form_video_list_width-10,
+					'height': self.options.form_height,
+					'float': 'left',
+					'margin-right': '10px'
+				});
+			}
+			self.form_video.css({
+				'width': '100%',
+				'height': 'auto',
+				'display':'inline-block'
+			});
+			self.form_video_list.css({
+				'width': '100%',
+				'height': self.options.form_video_list_height,
+				'text-align': 'center'
+			});
+			if (self.options.skin == 1){
+				self.form_video_show.css({
+					'height': self.options.form_height - self.options.form_video_description_height - self.options.form_video_control_height - self.options.form_video_list_height,
+					'width': '100%',
+					'cursor': 'pointer'
+				});
+			}else{
+				self.form_video_show.css({
+					'height': self.options.form_height - self.options.form_video_description_height, 
+					'width': '100%',
+					'cursor': 'pointer'					
+				});
+			}
+			if (self.options.show_description)
+			{
+				self.form_video_text.css({
+					'height': 'auto',
+					'width': '100%',
+					'text-align': 'left',
+					'margin-top': '-20px',
+					'display':'inline-block',
+					'color': self.options.player_color
+				});
+				self.form_video_titlte.css({
+					'height': '30px',
+					'line-height': '30px',
+					'width': '100%',
+					'text-align': 'left',
+					'font-size': '14px',
+					'font-weight': 'bold',
+					'clear': 'both',
+					'display': 'inline-block',
+					'color': self.options.player_color
+				});
+				self.form_video_description.css({
+					'height': '30px',
+					'line-height': '30px',
+					'width': '100%',
+					'text-align': 'left',
+					'font-size': '14px',
+					'clear': 'both',
+					'font-style': 'italic',
+					'color': self.options.player_color,
+					'padding-left':'8px'
+				});
+			}
+			self.form_control.css({
+				'width': '100%',
+				'height': self.options.form_video_control_height,
+				'text-align': 'center'
+			});
+			self.processbar.css({
+				'font-size':'12px',
+				'width': (self.main_form.width()-16*5-197)+'px',
+				'height':'3px',
+				'border':'none',
+				'margin-right':'5px',
+				'text-align':'left',
+				'position': 'relative',
+				'cursor': 'pointer',
+				'top': '9px',
+				'cursor': 'pointer',
+				'border': '1px solid '+self.options.player_color,
+				'-webkit-box-shadow': '0px 0px 5px -1px '+self.options.player_color,
+				'-moz-box-shadow':    '0px 0px 5px -1px '+self.options.player_color,
+				'box-shadow':         '0px 0px 5px -1px '+self.options.player_color,
+				'-webkit-border-radius': '6px',
+				'-moz-border-radius': '6px'
+			});
+			self.form_control_next.css({
+				'float': 'right',
+				'margin': '3px',
+				'margin-right': '0px',
+				'cursor': 'pointer',
+				'position': 'relative',
+				'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-next.png) no-repeat center',
+				'width': '16px',
+				'height': '16px'
+			});
+			self.slide_video.css({
+				'width': '100%',
+				'height': self.options.form_video_list_height,
+				'text-align': 'center',
+				'position': 'relative',
+				'border-radius': '22px',
+				'border-top-right-radius': '0px',
+				'border-top-left-radius': '0px',
+				'border-right':'none',
+				'display':'inline-block'
+			});
+			if (self.options.skin == 1){
+				self.prev_video.css({
+					'float': 'left',
+					'background':'url(asset/images/'+self.options.player_color.replace('#', '')+'-prev-video-slide.png) no-repeat center',
+					'width': '30px',
+					'height': '30px',
+					'cursor': 'pointer',
+					'margin-top': '40px'
+				});
+			}else{
+				self.slide_video.css({'height':'100%', 'margin-top': '0px'});
+			}
+			if (self.options.skin == 1){
+				self.list_video.css({
+					'position': 'relative',
+					'float': 'left',
+					'height': self.options.form_video_list_height,
+					'padding': '0px 8px',
+					'width': (self.main_form.width() - 80) + 'px',
+					'overflow-x': 'hidden',
+					'overflow-y': 'hidden'
+				});
+			}else{
+				self.list_video.css({
+					'float': 'left',
+					'height': '100%',
+					'width': self.options.form_video_list_width + 'px',
+					'overflow-x': 'hidden',
+					'overflow-y': 'scroll'
+				});
+			}
+			if (self.options.skin == 1){
+				jQuery(self).find('div.video-item').css({
+					'width': '100px',
+					'height': self.options.form_video_list_height,
+				});
+			}else{
+				jQuery(self).find('div.video-item').css({
+					'width': self.options.form_video_list_width,
+					'height': '100px',
+					'position': 'relative',
+					'cursor': 'pointer',
+					'float': 'none',
+					'margin-bottom': '10px',
+					'display': 'inline-block',
+					'text-align': 'center'
+				});
+			}
+			if (self.options.skin == 1){
+				jQuery(self).find('div.video-hover').css({
+					'position':'absolute',
+					'width': '100px',
+					'height': '0px',
+					'cursor': 'pointer',
+					'margin': '0px 3px',
+					'display': 'inline-block',
+					'text-align': 'center',
+					'opacity': 0.8,
+					'display':'none',
+					'top': 30
+				});
+			}else{
+				jQuery(self).find('div.video-hover').css({
+					'position':'absolute',
+					'width': self.options.form_video_list_width,
+					'height': '0px',
+					'top':32,
+					'cursor': 'pointer',
+					'float': 'none',
+					'display': 'inline-block',
+					'text-align': 'center',
+					'opacity': 0.8,
+					'display':'none'
+				});
+			}
+			self.loadVideo();
+			self.form_video_show_overlay.css({
+				'height': self.form_video_show.height(), 
+				'width': self.form_video_show.width(),
+				'cursor': 'pointer',
+				'position': 'absolute',
+				'display': 'block',
+				'top': self.form_video_show.position().top,
+				'left': self.form_video_show.position().left,
+				'text-align': 'center'
+			});
+		};
 		self.compile = function(){
+			jQuery(window).unbind("resize").resize(function(){
+				self.resizeForm();
+			});
 			self.createForm();
 			if (self.options.show_video_list){
 				self.createFormList();
